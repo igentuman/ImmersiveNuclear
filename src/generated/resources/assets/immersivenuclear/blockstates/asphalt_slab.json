@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=top": {
+      "model": "immersivenuclear:block/asphalt_slab_top"
+    },
+    "type=bottom": {
+      "model": "immersivenuclear:block/asphalt_slab"
+    },
+    "type=double": {
+      "model": "immersivenuclear:block/asphalt"
+    }
+  }
+}

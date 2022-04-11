@@ -1,0 +1,6 @@
+{
+  "parent": "immersivenuclear:block/asphalt",
+  "textures": {
+    "particle": "immersivenuclear:block/asphalt"
+  }
+}

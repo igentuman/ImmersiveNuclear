@@ -1,0 +1,11 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "texture": "immersivenuclear:multiblock/distillation_tower",
+    "particle": "immersivenuclear:multiblock/distillation_tower"
+  },
+  "loader": "forge:obj",
+  "model": "immersivenuclear:models/multiblock/obj/distillationtower_mirrored.obj",
+  "detectCullableFaces": false,
+  "flip-v": true
+}

@@ -1,0 +1,23 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "immersivenuclear:block/gas_generator_connector",
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=south": {
+      "model": "immersivenuclear:block/gas_generator_connector",
+      "uvlock": true
+    },
+    "facing=west": {
+      "model": "immersivenuclear:block/gas_generator_connector",
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=east": {
+      "model": "immersivenuclear:block/gas_generator_connector",
+      "y": 270,
+      "uvlock": true
+    }
+  }
+}

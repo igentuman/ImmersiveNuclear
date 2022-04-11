@@ -1,0 +1,36 @@
+modLoader="javafml"
+loaderVersion="[36,)"
+issueTrackerURL="https://github.com/igentuman/ImmersiveNuclear/issues"
+license="MIT"
+
+[[mods]] #mandatory
+	modId="immersivenuclear"
+	version="${version}"
+	displayName="Immersive Nuclear"
+	displayURL="https://minecraft.curseforge.com/projects/immersive-nuclear"
+	authors="igentuman"
+	description="Adds nuclear tech to Immersive Engineering."
+	logoFile="logo.png"
+	#updateJSONURL=""
+	credits="Flaxbeard"
+
+[[dependencies.immersivenuclear]]
+	modId="immersiveengineering"
+	mandatory=true
+	versionRange="[1.16.5-5.0.6-141,)"
+	ordering="BEFORE"
+	side="BOTH"
+
+[[dependencies.immersivenuclear]]
+	modId="forge"
+	mandatory=true
+	versionRange="[36.2.0,)"
+	ordering="NONE"
+	side="BOTH"
+
+[[dependencies.immersivenuclear]]
+	modId="minecraft"
+	mandatory=true
+	versionRange="[1.16.5]"
+	ordering="NONE"
+	side="BOTH"

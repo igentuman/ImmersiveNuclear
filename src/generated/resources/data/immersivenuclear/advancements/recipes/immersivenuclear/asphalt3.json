@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "immersivenuclear:asphalt3"
+    ]
+  },
+  "criteria": {
+    "has_bitumen": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "immersivenuclear:bitumen"
+          }
+        ]
+      }
+    },
+    "has_slag": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "immersiveengineering:slag"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "immersivenuclear:asphalt3"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_bitumen",
+      "has_slag",
+      "has_the_recipe"
+    ]
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "immersivenuclear:block/dummy_oil_ore",
+  "textures": {
+    "particle": "immersivenuclear:block/dummy_oil_ore"
+  }
+}

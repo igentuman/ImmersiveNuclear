@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "immersivenuclear:flarestack"
+    ]
+  },
+  "criteria": {
+    "has_bitumen": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "immersivenuclear:bitumen"
+          }
+        ]
+      }
+    },
+    "has_fluid_pipe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "immersiveengineering:fluid_pipe"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "immersivenuclear:flarestack"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_bitumen",
+      "has_fluid_pipe",
+      "has_the_recipe"
+    ]
+  ]
+}

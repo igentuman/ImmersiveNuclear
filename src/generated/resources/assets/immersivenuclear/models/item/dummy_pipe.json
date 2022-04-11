@@ -1,0 +1,6 @@
+{
+  "parent": "immersivenuclear:block/dummy_pipe",
+  "textures": {
+    "particle": "immersivenuclear:block/dummy_pipe"
+  }
+}

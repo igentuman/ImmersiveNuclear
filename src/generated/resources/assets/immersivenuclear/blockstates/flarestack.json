@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "slave=false": {
+      "model": "immersivenuclear:block/flarestack"
+    },
+    "slave=true": {
+      "model": "immersivenuclear:block/flare_empty"
+    }
+  }
+}
