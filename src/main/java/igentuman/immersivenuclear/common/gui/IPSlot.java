@@ -1,6 +1,5 @@
 package igentuman.immersivenuclear.common.gui;
 
-import igentuman.immersivenuclear.api.crafting.CokerUnitRecipe;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
@@ -23,17 +22,6 @@ public class IPSlot extends Slot{
 		@Override
 		public boolean isItemValid(ItemStack stack){
 			return false;
-		}
-	}
-	
-	public static class CokerInput extends IPSlot{
-		public CokerInput(Container container, IInventory inv, int id, int x, int y){
-			super(inv, id, x, y);
-		}
-		
-		@Override
-		public boolean isItemValid(ItemStack stack){
-			return !stack.isEmpty() && CokerUnitRecipe.hasRecipeWithInput(stack, true);
 		}
 	}
 	

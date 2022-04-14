@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-import igentuman.immersivenuclear.common.blocks.tileentities.AutoLubricatorTileEntity;
 import igentuman.immersivenuclear.common.blocks.tileentities.DistillationTowerTileEntity;
 import igentuman.immersivenuclear.common.blocks.tileentities.GasGeneratorTileEntity;
 import org.lwjgl.glfw.GLFW;
@@ -14,13 +13,9 @@ import blusunrize.immersiveengineering.client.ClientUtils;
 import blusunrize.immersiveengineering.common.blocks.generic.PoweredMultiblockTileEntity;
 import blusunrize.immersiveengineering.common.util.inventory.MultiFluidTank;
 import igentuman.immersivenuclear.ImmersiveNuclear;
-import igentuman.immersivenuclear.api.crafting.pumpjack.PumpjackHandler;
-import igentuman.immersivenuclear.api.crafting.pumpjack.PumpjackHandler.ReservoirType;
-import igentuman.immersivenuclear.api.crafting.pumpjack.ReservoirWorldInfo;
 import igentuman.immersivenuclear.client.model.IPModels;
 import igentuman.immersivenuclear.common.IPContent;
 import igentuman.immersivenuclear.common.IPSaveData;
-import igentuman.immersivenuclear.common.entity.MotorboatEntity;
 import igentuman.immersivenuclear.common.network.IPPacketHandler;
 import igentuman.immersivenuclear.common.network.MessageDebugSync;
 import igentuman.immersivenuclear.common.particle.IPParticleTypes;
@@ -109,82 +104,6 @@ public class DebugItem extends IPItemBase{
 					IPModels.getModels().forEach(m -> m.init());
 					
 					playerIn.sendStatusMessage(new StringTextComponent("Models refreshed."), true);
-					
-					return new ActionResult<ItemStack>(ActionResultType.SUCCESS, playerIn.getHeldItem(handIn));
-				}
-				case RESERVOIR_BIG_SCAN:{
-					BlockPos pos = playerIn.getPosition();
-					int r = 5;
-					int cx = (pos.getX() >> 4);
-					int cz = (pos.getZ() >> 4);
-					ImmersiveNuclear.log.info(worldIn.getDimensionKey());
-					for(int i = -r;i <= r;i++){
-						for(int j = -r;j <= r;j++){
-							int x = cx + i;
-							int z = cz + j;
-							
-							DimensionChunkCoords coords = new DimensionChunkCoords(worldIn.getDimensionKey(), x, z);
-							
-							ReservoirWorldInfo info = PumpjackHandler.getOrCreateOilWorldInfo(worldIn, coords, false);
-							if(info != null && info.getType() != null){
-								ReservoirType type = info.getType();
-								
-								int cap = info.capacity;
-								int cur = info.current;
-								
-								String out = String.format(Locale.ENGLISH, "%s %s:\t%.3f/%.3f Buckets of %s", coords.x, coords.z, cur / 1000D, cap / 1000D, type.name);
-								
-								ImmersiveNuclear.log.info(out);
-							}
-						}
-					}
-					
-					return new ActionResult<ItemStack>(ActionResultType.SUCCESS, playerIn.getHeldItem(handIn));
-				}
-				case CLEAR_RESERVOIR_CACHE:{
-					int contentSize = PumpjackHandler.reservoirsCache.size();
-					
-					PumpjackHandler.reservoirsCache.clear();
-					PumpjackHandler.recalculateChances();
-					
-					IPSaveData.markInstanceAsDirty();
-					
-					playerIn.sendStatusMessage(new StringTextComponent("Cleared Oil Cache. (Removed " + contentSize + ")"), true);
-					
-					return new ActionResult<ItemStack>(ActionResultType.SUCCESS, playerIn.getHeldItem(handIn));
-				}
-				case RESERVOIR:{
-					BlockPos pos = playerIn.getPosition();
-					DimensionChunkCoords coords = new DimensionChunkCoords(worldIn.getDimensionKey(), (pos.getX() >> 4), (pos.getZ() >> 4));
-					
-					int last = PumpjackHandler.reservoirsCache.size();
-					ReservoirWorldInfo info = PumpjackHandler.getOrCreateOilWorldInfo(worldIn, coords, false);
-					boolean isNew = PumpjackHandler.reservoirsCache.size() != last;
-					
-					if(info != null){
-						int cap = info.capacity;
-						int cur = info.current;
-						ReservoirType type = info.getType();
-						
-						if(type!=null){
-							String out = String.format(Locale.ENGLISH,
-									"%s %s: %.3f/%.3f Buckets of %s%s%s",
-									coords.x,
-									coords.z,
-									cur/1000D,
-									cap/1000D,
-									type.name,
-									(info.overrideType!=null?" [OVERRIDDEN]":""),
-									(isNew?" [NEW]":"")
-							);
-							
-							playerIn.sendStatusMessage(new StringTextComponent(out), true);
-							
-							return new ActionResult<ItemStack>(ActionResultType.SUCCESS, playerIn.getHeldItem(handIn));
-						}
-					}
-					
-					playerIn.sendStatusMessage(new StringTextComponent(String.format(Locale.ENGLISH, "%s %s: Nothing.", coords.x, coords.z)), true);
 					
 					return new ActionResult<ItemStack>(ActionResultType.SUCCESS, playerIn.getHeldItem(handIn));
 				}
@@ -288,27 +207,6 @@ public class DebugItem extends IPItemBase{
 				}
 				break;
 			}
-			case INFO_TE_AUTOLUBE:{
-				if(te instanceof AutoLubricatorTileEntity){
-					AutoLubricatorTileEntity lube = (AutoLubricatorTileEntity) te;
-					
-					IFormattableTextComponent out = new StringTextComponent(context.getWorld().isRemote ? "CLIENT: " : "SERVER: ");
-					out.appendString(lube.facing + ", ");
-					out.appendString((lube.isActive ? "Active" : "Inactive") + ", ");
-					out.appendString((lube.isSlave ? "Slave" : "Master") + ", ");
-					out.appendString((lube.predictablyDraining ? "Predictably Draining, " : ""));
-					if(!lube.tank.isEmpty()){
-						out.appendSibling(lube.tank.getFluid().getDisplayName()).appendString(" " + lube.tank.getFluidAmount() + "/" + lube.tank.getCapacity() + "mB");
-					}else{
-						out.appendString("Empty");
-					}
-					
-					player.sendMessage(out, Util.DUMMY_UUID);
-					
-					return ActionResultType.SUCCESS;
-				}
-				break;
-			}
 			case INFO_TE_GASGEN:{
 				if(te instanceof GasGeneratorTileEntity){
 					GasGeneratorTileEntity gas = (GasGeneratorTileEntity) te;
@@ -329,35 +227,6 @@ public class DebugItem extends IPItemBase{
 		}
 		
 		return ActionResultType.PASS;
-	}
-	
-	public void onSpeedboatClick(MotorboatEntity speedboatEntity, PlayerEntity player, ItemStack debugStack){
-		if(speedboatEntity.world.isRemote || DebugItem.getMode(debugStack) != Modes.INFO_SPEEDBOAT){
-			return;
-		}
-		
-		IFormattableTextComponent textOut = new StringTextComponent("-- Speedboat --\n");
-		
-		FluidStack fluid = speedboatEntity.getContainedFluid();
-		if(fluid == FluidStack.EMPTY){
-			textOut.appendString("Tank: Empty");
-		}else{
-			textOut.appendString("Tank: " + fluid.getAmount() + "/" + speedboatEntity.getMaxFuel() + "mB of ").appendSibling(fluid.getDisplayName());
-		}
-		
-		IFormattableTextComponent upgradesText = new StringTextComponent("\n");
-		NonNullList<ItemStack> upgrades = speedboatEntity.getUpgrades();
-		int i = 0;
-		for(ItemStack upgrade:upgrades){
-			if(upgrade == null || upgrade == ItemStack.EMPTY){
-				upgradesText.appendString("Upgrade " + (++i) + ": Empty\n");
-			}else{
-				upgradesText.appendString("Upgrade " + (i++) + ": ").appendSibling(upgrade.getDisplayName()).appendString("\n");
-			}
-		}
-		textOut.appendSibling(upgradesText);
-		
-		player.sendMessage(textOut, Util.DUMMY_UUID);
 	}
 	
 	public static void setModeServer(ItemStack stack, Modes mode){

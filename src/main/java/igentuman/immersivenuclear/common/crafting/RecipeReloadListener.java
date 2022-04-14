@@ -5,10 +5,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import igentuman.immersivenuclear.ImmersiveNuclear;
-import igentuman.immersivenuclear.api.crafting.CokerUnitRecipe;
 import igentuman.immersivenuclear.api.crafting.DistillationRecipe;
 import igentuman.immersivenuclear.api.crafting.SulfurRecoveryRecipe;
-import igentuman.immersivenuclear.api.crafting.pumpjack.PumpjackHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
@@ -50,13 +48,7 @@ public class RecipeReloadListener implements IResourceManagerReloadListener{
 		
 		ImmersiveNuclear.log.info("Loading Distillation Recipes.");
 		DistillationRecipe.recipes = filterRecipes(recipes, DistillationRecipe.class, DistillationRecipe.TYPE);
-		
-		ImmersiveNuclear.log.info("Loading Reservoirs.");
-		PumpjackHandler.reservoirs = filterRecipes(recipes, PumpjackHandler.ReservoirType.class, PumpjackHandler.ReservoirType.TYPE);
-		
-		ImmersiveNuclear.log.info("Loading Coker-Unit Recipes.");
-		CokerUnitRecipe.recipes = filterRecipes(recipes, CokerUnitRecipe.class, CokerUnitRecipe.TYPE);
-		
+
 		ImmersiveNuclear.log.info("Loading Sulfur Recovery Recipes.");
 		SulfurRecoveryRecipe.recipes = filterRecipes(recipes, SulfurRecoveryRecipe.class, SulfurRecoveryRecipe.TYPE);
 	}

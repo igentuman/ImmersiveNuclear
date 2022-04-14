@@ -1,7 +1,6 @@
 package igentuman.immersivenuclear.common;
 
 import igentuman.immersivenuclear.common.blocks.tileentities.DistillationTowerTileEntity;
-import igentuman.immersivenuclear.common.gui.CokerUnitContainer;
 import igentuman.immersivenuclear.common.gui.DistillationTowerContainer;
 import igentuman.immersivenuclear.common.gui.HydrotreaterContainer;
 import org.apache.logging.log4j.LogManager;
@@ -12,7 +11,6 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import blusunrize.immersiveengineering.common.gui.GuiHandler;
 import igentuman.immersivenuclear.ImmersiveNuclear;
-import igentuman.immersivenuclear.common.blocks.tileentities.CokerUnitTileEntity;
 import igentuman.immersivenuclear.common.blocks.tileentities.HydrotreaterTileEntity;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.entity.Entity;
@@ -36,7 +34,6 @@ public class CommonProxy{
 	
 	public void registerContainersAndScreens(){
 		GuiHandler.register(DistillationTowerTileEntity.class, new ResourceLocation(ImmersiveNuclear.MODID, "distillationtower"), DistillationTowerContainer::new);
-		GuiHandler.register(CokerUnitTileEntity.class, new ResourceLocation(ImmersiveNuclear.MODID, "cokerunit"), CokerUnitContainer::new);
 		GuiHandler.register(HydrotreaterTileEntity.class, new ResourceLocation(ImmersiveNuclear.MODID, "hydrotreater"), HydrotreaterContainer::new);
 	}
 	

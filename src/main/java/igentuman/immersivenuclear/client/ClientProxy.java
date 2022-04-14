@@ -5,21 +5,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
-
-import igentuman.immersivenuclear.api.crafting.pumpjack.PumpjackHandler;
-import igentuman.immersivenuclear.client.gui.CokerUnitScreen;
 import igentuman.immersivenuclear.client.gui.DistillationTowerScreen;
 import igentuman.immersivenuclear.client.gui.HydrotreaterScreen;
-import igentuman.immersivenuclear.client.gui.ProjectorScreen;
-import igentuman.immersivenuclear.client.render.AutoLubricatorRenderer;
-import igentuman.immersivenuclear.client.render.MotorboatRenderer;
 import igentuman.immersivenuclear.client.render.MultiblockDistillationTowerRenderer;
-import igentuman.immersivenuclear.client.render.MultiblockPumpjackRenderer;
 import igentuman.immersivenuclear.client.render.debugging.DebugRenderHandler;
 import igentuman.immersivenuclear.common.CommonProxy;
 import igentuman.immersivenuclear.common.IPContent;
 import igentuman.immersivenuclear.common.IPTileTypes;
-import igentuman.immersivenuclear.common.blocks.tileentities.PumpjackTileEntity;
 import igentuman.immersivenuclear.common.cfg.IPServerConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -49,11 +41,8 @@ import igentuman.immersivenuclear.api.crafting.DistillationRecipe;
 import igentuman.immersivenuclear.api.crafting.FlarestackHandler;
 import igentuman.immersivenuclear.api.energy.FuelHandler;
 import igentuman.immersivenuclear.common.crafting.RecipeReloadListener;
-import igentuman.immersivenuclear.common.entity.MotorboatEntity;
-import igentuman.immersivenuclear.common.multiblocks.CokerUnitMultiblock;
 import igentuman.immersivenuclear.common.multiblocks.DistillationTowerMultiblock;
 import igentuman.immersivenuclear.common.multiblocks.HydroTreaterMultiblock;
-import igentuman.immersivenuclear.common.multiblocks.PumpjackMultiblock;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.IHasContainer;
@@ -107,13 +96,13 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class ClientProxy extends CommonProxy {
 	@SuppressWarnings("unused")
 	private static final Logger log = LogManager.getLogger(ImmersiveNuclear.MODID + "/ClientProxy");
-	public static final String CAT_IP = "ip";
+	public static final String CAT_IP = "inuclear";
 	
 	public static final KeyBinding keybind_preview_flip = new KeyBinding("key.immersivenuclear.projector.flip", InputMappings.Type.KEYSYM, GLFW.GLFW_KEY_M, "key.categories.immersivenuclear");
 	
 	@Override
 	public void setup(){
-		RenderingRegistry.registerEntityRenderingHandler(MotorboatEntity.TYPE, MotorboatRenderer::new);
+		//RenderingRegistry.registerEntityRenderingHandler(INuclearEntity.TYPE, MotorboatRenderer::new);
 	}
 	
 	@Override
@@ -121,7 +110,6 @@ public class ClientProxy extends CommonProxy {
 		super.registerContainersAndScreens();
 		
 		registerScreen(new ResourceLocation(ImmersiveNuclear.MODID, "distillationtower"), DistillationTowerScreen::new);
-		registerScreen(new ResourceLocation(ImmersiveNuclear.MODID, "cokerunit"), CokerUnitScreen::new);
 		registerScreen(new ResourceLocation(ImmersiveNuclear.MODID, "hydrotreater"), HydrotreaterScreen::new);
 	}
 	
@@ -139,35 +127,8 @@ public class ClientProxy extends CommonProxy {
 				case "distillationtower_operationcost":{
 					return Integer.valueOf((int) (2048 * IPServerConfig.REFINING.distillationTower_energyModifier.get()));
 				}
-				case "coker_operationcost":{
-					return Integer.valueOf((int) (1024 * IPServerConfig.REFINING.cokerUnit_energyModifier.get()));
-				}
 				case "hydrotreater_operationcost":{
 					return Integer.valueOf((int) (512 * IPServerConfig.REFINING.hydrotreater_energyModifier.get()));
-				}
-				case "pumpjack_consumption":{
-					return IPServerConfig.EXTRACTION.pumpjack_consumption.get();
-				}
-				case "pumpjack_speed":{
-					return IPServerConfig.EXTRACTION.pumpjack_speed.get();
-				}
-				case "pumpjack_days":{
-					int oil_min = 1000000;
-					int oil_max = 5000000;
-					for(PumpjackHandler.ReservoirType type:PumpjackHandler.reservoirs.values()){
-						if(type.name.equals("oil")){
-							oil_min = type.minSize;
-							oil_max = type.maxSize;
-							break;
-						}
-					}
-					
-					float averageSize = (oil_min + oil_max) / 2F;
-					float pumpspeed = IPServerConfig.EXTRACTION.pumpjack_speed.get();
-					return Integer.valueOf(MathHelper.floor((averageSize / pumpspeed) / 24000F));
-				}
-				case "autolubricant_speedup":{
-					return Double.valueOf(1.25D);
 				}
 				case "portablegenerator_flux":{
 					return FuelHandler.getFluxGeneratedPerTick(IPContent.Fluids.gasoline.getFluid());
@@ -206,8 +167,6 @@ public class ClientProxy extends CommonProxy {
 		ClientRegistry.registerKeyBinding(keybind_preview_flip);
 		
 		ClientRegistry.bindTileEntityRenderer(IPTileTypes.TOWER.get(), MultiblockDistillationTowerRenderer::new);
-		ClientRegistry.bindTileEntityRenderer(IPTileTypes.PUMP.get(), MultiblockPumpjackRenderer::new);
-		ClientRegistry.bindTileEntityRenderer(IPTileTypes.AUTOLUBE.get(), AutoLubricatorRenderer::new);
 	}
 	
 	/** ImmersiveNuclear's Manual Category */
@@ -225,28 +184,11 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void renderTile(TileEntity te, IVertexBuilder iVertexBuilder, MatrixStack transform, IRenderTypeBuffer buffer){
 		TileEntityRenderer<TileEntity> tesr = TileEntityRendererDispatcher.instance.getRenderer((TileEntity) te);
-		
-		if(te instanceof PumpjackTileEntity){
-			transform.push();
-			transform.rotate(new Quaternion(0, -90, 0, true));
-			transform.translate(1, 1, -2);
-			
-			float pt = 0;
-			if(Minecraft.getInstance().player != null){
-				((PumpjackTileEntity) te).activeTicks = Minecraft.getInstance().player.ticksExisted;
-				pt = Minecraft.getInstance().getRenderPartialTicks();
-			}
-			
-			tesr.render(te, pt, transform, buffer, 0xF000F0, 0);
-			transform.pop();
-		}else{
-			transform.push();
-			transform.rotate(new Quaternion(0, -90, 0, true));
-			transform.translate(0, 1, -4);
-			
-			tesr.render(te, 0, transform, buffer, 0xF000F0, 0);
-			transform.pop();
-		}
+		transform.push();
+		transform.rotate(new Quaternion(0, -90, 0, true));
+		transform.translate(0, 1, -4);
+		tesr.render(te, 0, transform, buffer, 0xF000F0, 0);
+		transform.pop();
 	}
 	
 	@Override
@@ -263,11 +205,6 @@ public class ClientProxy extends CommonProxy {
 		transform.translate(0.0F, 0.5F, 1.0F);
 		blockRenderer.getBlockModelRenderer().renderModel(transform.getLast(), buffers.getBuffer(RenderType.getSolid()), state, model, 1.0F, 1.0F, 1.0F, -1, -1, EmptyModelData.INSTANCE);
 		transform.pop();
-	}
-	
-	@Override
-	public void openProjectorGui(Hand hand, ItemStack held){
-		Minecraft.getInstance().displayGuiScreen(new ProjectorScreen(hand, held));
 	}
 	
 	@Override
@@ -294,21 +231,13 @@ public class ClientProxy extends CommonProxy {
 		ManualInstance man = ManualHelper.getManual();
 		
 		IP_CATEGORY = man.getRoot().getOrCreateSubnode(modLoc("main"), 100);
-		
-		pumpjack(modLoc("pumpjack"), 0);
 		distillation(modLoc("distillationtower"), 1);
-		coker(modLoc("cokerunit"), 2);
 		hydrotreater(modLoc("hydrotreater"), 3);
-		
-		handleReservoirManual(modLoc("reservoir"), 3);
-		
-		lubricant(modLoc("lubricant"), 4);
+
 		man.addEntry(IP_CATEGORY, modLoc("asphalt"), 5);
-		projector(modLoc("projector"), 5);
-		speedboat(modLoc("speedboat"), 6);
+
 		man.addEntry(IP_CATEGORY, modLoc("napalm"), 7);
 		generator(modLoc("portablegenerator"), 8);
-		autolube(modLoc("automaticlubricator"), 9);
 		flarestack(modLoc("flarestack"), 10);
 	}
 	
@@ -339,14 +268,7 @@ public class ClientProxy extends CommonProxy {
 		man.addEntry(IP_CATEGORY, builder.create(), priority);
 	}
 	
-	private static void autolube(ResourceLocation location, int priority){
-		ManualInstance man = ManualHelper.getManual();
-		
-		ManualEntry.ManualEntryBuilder builder = new ManualEntry.ManualEntryBuilder(man);
-		builder.addSpecialElement("automaticlubricator0", 0, new ManualElementCrafting(man, new ItemStack(IPContent.Blocks.auto_lubricator)));
-		builder.readFromFile(location);
-		man.addEntry(IP_CATEGORY, builder.create(), priority);
-	}
+
 	
 	private static void generator(ResourceLocation location, int priority){
 		ManualInstance man = ManualHelper.getManual();
@@ -357,37 +279,7 @@ public class ClientProxy extends CommonProxy {
 		man.addEntry(IP_CATEGORY, builder.create(), priority);
 	}
 	
-	private static void speedboat(ResourceLocation location, int priority){
-		ManualInstance man = ManualHelper.getManual();
-		
-		ManualEntry.ManualEntryBuilder builder = new ManualEntry.ManualEntryBuilder(man);
-		builder.addSpecialElement("speedboat0", 0, new ManualElementCrafting(man, new ItemStack(IPContent.Items.speedboat)));
-		builder.addSpecialElement("speedboat1", 0, new ManualElementCrafting(man, new ItemStack(IPContent.BoatUpgrades.tank)));
-		builder.addSpecialElement("speedboat2", 0, new ManualElementCrafting(man, new ItemStack(IPContent.BoatUpgrades.rudders)));
-		builder.addSpecialElement("speedboat3", 0, new ManualElementCrafting(man, new ItemStack(IPContent.BoatUpgrades.ice_breaker)));
-		builder.addSpecialElement("speedboat4", 0, new ManualElementCrafting(man, new ItemStack(IPContent.BoatUpgrades.reinforced_hull)));
-		builder.addSpecialElement("speedboat5", 0, new ManualElementCrafting(man, new ItemStack(IPContent.BoatUpgrades.paddles)));
-		builder.readFromFile(location);
-		man.addEntry(IP_CATEGORY, builder.create(), priority);
-	}
-	
-	private static void lubricant(ResourceLocation location, int priority){
-		ManualInstance man = ManualHelper.getManual();
-		
-		ManualEntry.ManualEntryBuilder builder = new ManualEntry.ManualEntryBuilder(man);
-		builder.addSpecialElement("lubricant1", 0, new ManualElementCrafting(man, new ItemStack(IPContent.Items.oil_can)));
-		builder.readFromFile(location);
-		man.addEntry(IP_CATEGORY, builder.create(), priority);
-	}
-	
-	private static void pumpjack(ResourceLocation location, int priority){
-		ManualInstance man = ManualHelper.getManual();
-		
-		ManualEntry.ManualEntryBuilder builder = new ManualEntry.ManualEntryBuilder(man);
-		builder.addSpecialElement("pumpjack0", 0, () -> new ManualElementMultiblock(man, PumpjackMultiblock.INSTANCE));
-		builder.readFromFile(location);
-		man.addEntry(IP_CATEGORY, builder.create(), priority);
-	}
+
 	
 	private static void distillation(ResourceLocation location, int priority){
 		ManualInstance man = ManualHelper.getManual();
@@ -417,16 +309,7 @@ public class ClientProxy extends CommonProxy {
 		builder.readFromFile(location);
 		man.addEntry(IP_CATEGORY, builder.create(), priority);
 	}
-	
-	protected static void coker(ResourceLocation location, int priority){
-		ManualInstance man = ManualHelper.getManual();
-		
-		ManualEntry.ManualEntryBuilder builder = new ManualEntry.ManualEntryBuilder(man);
-		builder.addSpecialElement("cokerunit0", 0, () -> new ManualElementMultiblock(man, CokerUnitMultiblock.INSTANCE));
-		builder.readFromFile(location);
-		man.addEntry(IP_CATEGORY, builder.create(), priority);
-	}
-	
+
 	protected static void hydrotreater(ResourceLocation location, int priority){
 		ManualInstance man = ManualHelper.getManual();
 		
@@ -436,113 +319,10 @@ public class ClientProxy extends CommonProxy {
 		man.addEntry(IP_CATEGORY, builder.create(), priority);
 	}
 	
-	protected static void projector(ResourceLocation location, int priority){
-		ManualInstance man = ManualHelper.getManual();
-		
-		ItemStack projectorWithNBT = new ItemStack(IPContent.Items.projector);
-		ItemNBTHelper.putString(projectorWithNBT, "multiblock", IEMultiblocks.ARC_FURNACE.getUniqueName().toString());
-		
-		ManualEntry.ManualEntryBuilder builder = new ManualEntry.ManualEntryBuilder(man);
-		builder.addSpecialElement("projector0", 0, new ManualElementCrafting(man, new ItemStack(IPContent.Items.projector)));
-		builder.addSpecialElement("projector1", 0, new ManualElementCrafting(man, projectorWithNBT));
-		builder.readFromFile(location);
-		man.addEntry(IP_CATEGORY, builder.create(), priority);
-	}
-	
-	private static void handleReservoirManual(ResourceLocation location, int priority){
-		ManualInstance man = ManualHelper.getManual();
-		
-		ManualEntry.ManualEntryBuilder builder = new ManualEntry.ManualEntryBuilder(man);
-		builder.setContent(ClientProxy::createContent);
-		builder.setLocation(location);
-		man.addEntry(IP_CATEGORY, builder.create(), priority);
-	}
-	
 	protected static EntryData createContentTest(TextSplitter splitter){
 		return new EntryData("title", "subtext", "content");
 	}
 	
 	static final DecimalFormat FORMATTER = new DecimalFormat("#,###.##");
-	static ManualEntry entry;
-	protected static EntryData createContent(TextSplitter splitter){
-		ArrayList<ItemStack> list = new ArrayList<>();
-		final PumpjackHandler.ReservoirType[] reservoirs = PumpjackHandler.reservoirs.values().toArray(new PumpjackHandler.ReservoirType[0]);
-		
-		StringBuilder contentBuilder = new StringBuilder();
-		contentBuilder.append(I18n.format("ie.manual.entry.reservoirs.oil0"));
-		contentBuilder.append(I18n.format("ie.manual.entry.reservoirs.oil1"));
-		
-		for(int i = 0;i < reservoirs.length;i++){
-			PumpjackHandler.ReservoirType type = reservoirs[i];
-			
-			ImmersiveNuclear.log.debug("Creating entry for " + type);
-			
-			String name = "desc.immersivenuclear.info.reservoir." + type.name;
-			String localizedName = I18n.format(name);
-			if(localizedName.equalsIgnoreCase(name))
-				localizedName = type.name;
-			
-			char c = localizedName.toLowerCase().charAt(0);
-			boolean isVowel = (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u');
-			String aOrAn = I18n.format(isVowel ? "ie.manual.entry.reservoirs.vowel" : "ie.manual.entry.reservoirs.consonant");
-			
-			String dimBLWL = "";
-			if(type.dimWhitelist != null && type.dimWhitelist.size() > 0){
-				String validDims = "";
-				for(ResourceLocation rl:type.dimWhitelist){
-					validDims += (!validDims.isEmpty() ? ", " : "") + "<dim;" + rl + ">";
-				}
-				dimBLWL = I18n.format("ie.manual.entry.reservoirs.dim.valid", localizedName, validDims, aOrAn);
-			}else if(type.dimBlacklist != null && type.dimBlacklist.size() > 0){
-				String invalidDims = "";
-				for(ResourceLocation rl:type.dimBlacklist){
-					invalidDims += (!invalidDims.isEmpty() ? ", " : "") + "<dim;" + rl + ">";
-				}
-				dimBLWL = I18n.format("ie.manual.entry.reservoirs.dim.invalid", localizedName, invalidDims, aOrAn);
-			}else{
-				dimBLWL = I18n.format("ie.manual.entry.reservoirs.dim.any", localizedName, aOrAn);
-			}
-			
-			String bioBLWL = "";
-			if(type.bioWhitelist != null && type.bioWhitelist.size() > 0){
-				String validBiomes = "";
-				for(ResourceLocation rl:type.bioWhitelist){
-					Biome bio = ForgeRegistries.BIOMES.getValue(rl);
-					validBiomes += (!validBiomes.isEmpty() ? ", " : "") + (bio != null ? bio.toString() : rl);
-				}
-				bioBLWL = I18n.format("ie.manual.entry.reservoirs.bio.valid", validBiomes);
-			}else if(type.bioBlacklist != null && type.bioBlacklist.size() > 0){
-				String invalidBiomes = "";
-				for(ResourceLocation rl:type.bioBlacklist){
-					Biome bio = ForgeRegistries.BIOMES.getValue(rl);
-					invalidBiomes += (!invalidBiomes.isEmpty() ? ", " : "") + (bio != null ? bio.toString() : rl);
-				}
-				bioBLWL = I18n.format("ie.manual.entry.reservoirs.bio.invalid", invalidBiomes);
-			}else{
-				bioBLWL = I18n.format("ie.manual.entry.reservoirs.bio.any");
-			}
-			
-			String fluidName = "";
-			Fluid fluid = type.getFluid();
-			if(fluid != null){
-				fluidName = new FluidStack(fluid, 1).getDisplayName().getString();
-			}
-			
-			String repRate = "";
-			if(type.replenishRate > 0){
-				repRate = I18n.format("ie.manual.entry.reservoirs.replenish", type.replenishRate, fluidName);
-			}
-			contentBuilder.append(I18n.format("ie.manual.entry.reservoirs.content", dimBLWL, fluidName, FORMATTER.format(type.minSize), FORMATTER.format(type.maxSize), repRate, bioBLWL));
-			
-			if(i < (reservoirs.length - 1))
-				contentBuilder.append("<np>");
-			
-			list.add(new ItemStack(fluid.getFilledBucket()));
-		}
-		
-		String translatedTitle = I18n.format("ie.manual.entry.reservoirs.title");
-		String tanslatedSubtext = I18n.format("ie.manual.entry.reservoirs.subtitle");
-		String formattedContent = contentBuilder.toString().replaceAll("\r\n|\r|\n", "\n");
-		return new EntryData(translatedTitle, tanslatedSubtext, formattedContent);
-	}
+
 }

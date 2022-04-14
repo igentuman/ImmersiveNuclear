@@ -5,7 +5,6 @@ import java.util.List;
 import blusunrize.immersiveengineering.api.Lib;
 import blusunrize.immersiveengineering.common.util.ItemNBTHelper;
 import igentuman.immersivenuclear.api.crafting.LubricantHandler;
-import igentuman.immersivenuclear.api.crafting.LubricatedHandler;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.LivingEntity;
@@ -92,7 +91,7 @@ public class OilCanItem extends IPItemBase{
 						if(handler instanceof FluidHandlerItemStack){
 							FluidHandlerItemStack can = (FluidHandlerItemStack) handler;
 							
-							if(can.getFluid() != null && LubricantHandler.isValidLube(can.getFluid().getFluid())){
+/*							if(can.getFluid() != null && LubricantHandler.isValidLube(can.getFluid().getFluid())){
 								int amountNeeded = (LubricantHandler.getLubeAmount(can.getFluid().getFluid()) * 5 * 20);
 								if(can.getFluid().getAmount() >= amountNeeded && LubricatedHandler.lubricateTile(world.getTileEntity(pos), 20 * 30)){
 									player.playSound(SoundEvents.ITEM_BUCKET_EMPTY, 1f, 1f);
@@ -101,7 +100,7 @@ public class OilCanItem extends IPItemBase{
 									}
 									return ActionResultType.SUCCESS;
 								}
-							}
+							}*/
 						}
 						
 						return ActionResultType.PASS;
