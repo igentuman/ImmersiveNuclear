@@ -6,7 +6,7 @@ import blusunrize.immersiveengineering.api.ApiUtils;
 import blusunrize.immersiveengineering.api.crafting.FluidTagInput;
 import blusunrize.immersiveengineering.api.crafting.IERecipeSerializer;
 import igentuman.immersivenuclear.api.crafting.SulfurRecoveryRecipe;
-import igentuman.immersivenuclear.api.crafting.builders.DistillationRecipeBuilder;
+import igentuman.immersivenuclear.api.crafting.builders.CoolingTowerRecipeBuilder;
 import igentuman.immersivenuclear.common.IPContent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
@@ -27,7 +27,7 @@ public class SulfurRecoveryRecipeSerializer extends IERecipeSerializer<SulfurRec
 			inputFluid1 = FluidTagInput.deserialize(JSONUtils.getJsonObject(json, "secondary_input"));
 		}
 		
-		Tuple<ItemStack, Double> itemWithChance = DistillationRecipeBuilder.deserializeItemStackWithChance(json.get("secondary_result").getAsJsonObject());
+		Tuple<ItemStack, Double> itemWithChance = CoolingTowerRecipeBuilder.deserializeItemStackWithChance(json.get("secondary_result").getAsJsonObject());
 		
 		int energy = JSONUtils.getInt(json, "energy");
 		int time = JSONUtils.getInt(json, "time");

@@ -10,7 +10,7 @@ import blusunrize.immersiveengineering.common.blocks.generic.MultiblockPartTileE
 import blusunrize.immersiveengineering.common.blocks.generic.PoweredMultiblockTileEntity;
 import blusunrize.immersiveengineering.common.util.inventory.MultiFluidTank;
 import igentuman.immersivenuclear.common.IPContent;
-import igentuman.immersivenuclear.common.blocks.tileentities.DistillationTowerTileEntity;
+import igentuman.immersivenuclear.common.blocks.tileentities.CoolingTowerTileEntity;
 import igentuman.immersivenuclear.common.blocks.tileentities.HydrotreaterTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -20,11 +20,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Hand;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
@@ -36,7 +34,6 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidTank;
-import net.minecraftforge.fluids.capability.templates.FluidTank;
 
 public class DebugRenderHandler{
 	public DebugRenderHandler(){
@@ -75,8 +72,8 @@ public class DebugRenderHandler{
 									multiblock = multiblock.master();
 								}
 								
-								if(te instanceof DistillationTowerTileEntity){
-									distillationtower(debugOut, (DistillationTowerTileEntity) multiblock);
+								if(te instanceof CoolingTowerTileEntity){
+									distillationtower(debugOut, (CoolingTowerTileEntity) multiblock);
 									
 								}else if(te instanceof HydrotreaterTileEntity){
 									hydrotreater(debugOut, (HydrotreaterTileEntity) multiblock);
@@ -158,7 +155,7 @@ public class DebugRenderHandler{
 		matrix.pop();
 	}
 	
-	private static void distillationtower(List<ITextComponent> text, DistillationTowerTileEntity tower){
+	private static void distillationtower(List<ITextComponent> text, CoolingTowerTileEntity tower){
 		for(int i = 0;i < tower.tanks.length;i++){
 			text.add(toText("Tank " + (i + 1)).mergeStyle(TextFormatting.UNDERLINE));
 			

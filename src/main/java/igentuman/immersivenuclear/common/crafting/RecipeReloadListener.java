@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import igentuman.immersivenuclear.ImmersiveNuclear;
-import igentuman.immersivenuclear.api.crafting.DistillationRecipe;
+import igentuman.immersivenuclear.api.crafting.CoolingTowerRecipe;
 import igentuman.immersivenuclear.api.crafting.SulfurRecoveryRecipe;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.crafting.IRecipe;
@@ -47,7 +47,7 @@ public class RecipeReloadListener implements IResourceManagerReloadListener{
 		}
 		
 		ImmersiveNuclear.log.info("Loading Distillation Recipes.");
-		DistillationRecipe.recipes = filterRecipes(recipes, DistillationRecipe.class, DistillationRecipe.TYPE);
+		CoolingTowerRecipe.recipes = filterRecipes(recipes, CoolingTowerRecipe.class, CoolingTowerRecipe.TYPE);
 
 		ImmersiveNuclear.log.info("Loading Sulfur Recovery Recipes.");
 		SulfurRecoveryRecipe.recipes = filterRecipes(recipes, SulfurRecoveryRecipe.class, SulfurRecoveryRecipe.TYPE);

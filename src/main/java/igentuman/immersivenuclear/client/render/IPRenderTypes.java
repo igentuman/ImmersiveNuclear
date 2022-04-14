@@ -16,7 +16,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 
 public class IPRenderTypes{
-	static final ResourceLocation activeTexture = new ResourceLocation(ImmersiveNuclear.MODID, "textures/multiblock/distillation_tower_active.png");
+	static final ResourceLocation activeTexture = new ResourceLocation(ImmersiveNuclear.MODID, "textures/multiblock/cooling_tower_active.png");
 	
 	/**
 	 * Intended to only be used by {@link MultiblockDistillationTowerRenderer}

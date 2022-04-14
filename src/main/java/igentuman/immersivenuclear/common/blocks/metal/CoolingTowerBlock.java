@@ -2,7 +2,7 @@ package igentuman.immersivenuclear.common.blocks.metal;
 
 import igentuman.immersivenuclear.common.IPTileTypes;
 import igentuman.immersivenuclear.common.blocks.IPMetalMultiblock;
-import igentuman.immersivenuclear.common.blocks.tileentities.DistillationTowerTileEntity;
+import igentuman.immersivenuclear.common.blocks.tileentities.CoolingTowerTileEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -15,40 +15,35 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 
-public class CoolingTowerBlock extends IPMetalMultiblock<DistillationTowerTileEntity>{
+public class CoolingTowerBlock extends IPMetalMultiblock<CoolingTowerTileEntity>{
 	public CoolingTowerBlock(){
-		super("distillationtower", () -> IPTileTypes.TOWER.get());
+		super("coolingtower", () -> IPTileTypes.TOWER.get());
 	}
 	
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit){
 		if(!player.getHeldItem(hand).isEmpty()){
 			TileEntity te = world.getTileEntity(pos);
-			if(te instanceof DistillationTowerTileEntity){
-				DistillationTowerTileEntity tower = (DistillationTowerTileEntity) te;
+			if(te instanceof CoolingTowerTileEntity){
+				CoolingTowerTileEntity tower = (CoolingTowerTileEntity) te;
 				BlockPos tPos = tower.posInMultiblock;
 				Direction facing = tower.getFacing();
 				
 				// Locations that don't require sneaking to avoid the GUI
 				
 				// Power input
-				if(DistillationTowerTileEntity.Energy_IN.contains(tPos) && hit.getFace() == Direction.UP){
+				if(CoolingTowerTileEntity.Energy_IN.contains(tPos) && hit.getFace() == Direction.UP){
 					return ActionResultType.FAIL;
 				}
 				
 				// Redstone controller input
-				if(DistillationTowerTileEntity.Redstone_IN.contains(tPos) && (tower.getIsMirrored() ? hit.getFace() == facing.rotateY() : hit.getFace() == facing.rotateYCCW())){
+				if(CoolingTowerTileEntity.Redstone_IN.contains(tPos) && (tower.getIsMirrored() ? hit.getFace() == facing.rotateY() : hit.getFace() == facing.rotateYCCW())){
 					return ActionResultType.FAIL;
 				}
 				
 				// Fluid I/O Ports
-				if((tPos.equals(DistillationTowerTileEntity.Fluid_IN) && (tower.getIsMirrored() ? hit.getFace() == facing.rotateYCCW() : hit.getFace() == facing.rotateY()))
-				|| (tPos.equals(DistillationTowerTileEntity.Fluid_OUT) && hit.getFace() == facing.getOpposite())){
-					return ActionResultType.FAIL;
-				}
-				
-				// Item output port
-				if(tPos.equals(DistillationTowerTileEntity.Item_OUT) && (tower.getIsMirrored() ? hit.getFace() == facing.rotateY() : hit.getFace() == facing.rotateYCCW())){
+				if((tPos.equals(CoolingTowerTileEntity.Fluid_IN) && (tower.getIsMirrored() ? hit.getFace() == facing.rotateYCCW() : hit.getFace() == facing.rotateY()))
+				|| (tPos.equals(CoolingTowerTileEntity.Fluid_OUT) && hit.getFace() == facing.getOpposite())){
 					return ActionResultType.FAIL;
 				}
 			}
@@ -59,8 +54,8 @@ public class CoolingTowerBlock extends IPMetalMultiblock<DistillationTowerTileEn
 	@Override
 	public boolean isLadder(BlockState state, IWorldReader world, BlockPos pos, LivingEntity entity){
 		TileEntity te = world.getTileEntity(pos);
-		if(te instanceof DistillationTowerTileEntity){
-			return ((DistillationTowerTileEntity) te).isLadder();
+		if(te instanceof CoolingTowerTileEntity){
+			return ((CoolingTowerTileEntity) te).isLadder();
 		}
 		return false;
 	}

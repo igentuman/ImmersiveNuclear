@@ -15,14 +15,10 @@ import blusunrize.immersiveengineering.data.blockstates.ConnectorBlockBuilder;
 import blusunrize.immersiveengineering.data.models.SplitModelBuilder;
 import igentuman.immersivenuclear.ImmersiveNuclear;
 import igentuman.immersivenuclear.common.IPContent;
-import igentuman.immersivenuclear.common.blocks.metal.AutoLubricatorBlock;
-import igentuman.immersivenuclear.common.blocks.metal.FlarestackBlock;
 import igentuman.immersivenuclear.common.blocks.metal.GasGeneratorBlock;
 import igentuman.immersivenuclear.common.fluids.IPFluid;
-import igentuman.immersivenuclear.common.multiblocks.CokerUnitMultiblock;
 import igentuman.immersivenuclear.common.multiblocks.DistillationTowerMultiblock;
 import igentuman.immersivenuclear.common.multiblocks.HydroTreaterMultiblock;
-import igentuman.immersivenuclear.common.multiblocks.PumpjackMultiblock;
 import net.minecraft.block.Block;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.block.StairsBlock;
@@ -59,39 +55,16 @@ public class IPBlockStates extends BlockStateProvider{
 	
 	@Override
 	protected void registerStatesAndModels(){
-		// Dummy Oil Ore
-		ModelFile dummyOilOreModel = cubeAll(IPContent.Blocks.dummyOilOre);
-		getVariantBuilder(IPContent.Blocks.dummyOilOre).partialState()
-			.setModels(new ConfiguredModel(dummyOilOreModel));
-		itemModelWithParent(IPContent.Blocks.dummyOilOre, dummyOilOreModel);
-		
-		// Dummy Pipe
-		ModelFile dummyPipeModel = new ExistingModelFile(modLoc("block/dummy_pipe"), this.exFileHelper);
-		getVariantBuilder(IPContent.Blocks.dummyPipe).partialState()
-			.setModels(new ConfiguredModel(dummyPipeModel));
-		itemModelWithParent(IPContent.Blocks.dummyPipe, dummyPipeModel);
-		
-		// Dummy Conveyor
-		ModelFile dummyConveyorModel = new ExistingModelFile(modLoc("block/dummy_conveyor"), this.exFileHelper);
-		getVariantBuilder(IPContent.Blocks.dummyConveyor).partialState()
-			.setModels(new ConfiguredModel(dummyConveyorModel));
-		getItemBuilder(IPContent.Blocks.dummyConveyor)
-			.parent(dummyConveyorModel)
-			.texture("particle", new ResourceLocation(ImmersiveEngineering.MODID, "block/conveyor/conveyor"));
 		
 		// Multiblocks
-		distillationtower();
-		pumpjack();
-		cokerunit();
+		coolingtower();
 		hydrotreater();
 		
 		// "Normal" Blocks
 		simpleBlockWithItem(IPContent.Blocks.petcoke);
 		gasGenerator();
 		asphaltBlocks();
-		
-		autolubricator();
-		flarestack();
+
 		
 		// Fluids
 		for(IPFluid f:IPFluid.FLUIDS){
@@ -105,8 +78,7 @@ public class IPBlockStates extends BlockStateProvider{
 	private void asphaltBlocks(){
 		ResourceLocation texture = modLoc("block/asphalt");
 		simpleBlockWithItem(IPContent.Blocks.asphalt);
-		slabWithItem(IPContent.Blocks.asphalt_slab, texture);
-		stairsWithItem(IPContent.Blocks.asphalt_stair, texture);
+
 	}
 	
 	private void stairsWithItem(StairsBlock block, ResourceLocation texture){
@@ -136,39 +108,17 @@ public class IPBlockStates extends BlockStateProvider{
 			.texture("particle", texture);
 	}
 	
-	private void distillationtower(){
-		ResourceLocation idleTexture = modLoc("multiblock/distillation_tower");
-		ResourceLocation modelNormal = modLoc("models/multiblock/obj/distillationtower.obj");
-		ResourceLocation modelMirrored = modLoc("models/multiblock/obj/distillationtower_mirrored.obj");
+	private void coolingtower(){
+		ResourceLocation idleTexture = modLoc("multiblock/cooling_tower");
+		ResourceLocation modelNormal = modLoc("models/multiblock/obj/coolingtower.obj");
+		ResourceLocation modelMirrored = modLoc("models/multiblock/obj/coolingtower_mirrored.obj");
 		
-		BlockModelBuilder normal = multiblockModel(IPContent.Multiblock.distillationtower, modelNormal, idleTexture, "_idle", DistillationTowerMultiblock.INSTANCE, false);
-		BlockModelBuilder mirrored = multiblockModel(IPContent.Multiblock.distillationtower, modelMirrored, idleTexture, "_mirrored_idle", DistillationTowerMultiblock.INSTANCE, true);
+		BlockModelBuilder normal = multiblockModel(IPContent.Multiblock.coolingtower, modelNormal, idleTexture, "_idle", DistillationTowerMultiblock.INSTANCE, false);
+		BlockModelBuilder mirrored = multiblockModel(IPContent.Multiblock.coolingtower, modelMirrored, idleTexture, "_mirrored_idle", DistillationTowerMultiblock.INSTANCE, true);
 		
-		createMultiblock(IPContent.Multiblock.distillationtower, normal, mirrored, idleTexture);
+		createMultiblock(IPContent.Multiblock.coolingtower, normal, mirrored, idleTexture);
 	}
-	
-	private void pumpjack(){
-		ResourceLocation texture = modLoc("multiblock/pumpjack_base");
-		ResourceLocation modelNormal = modLoc("models/multiblock/obj/pumpjack.obj");
-		ResourceLocation modelMirrored = modLoc("models/multiblock/obj/pumpjack_mirrored.obj");
-		
-		BlockModelBuilder normal = multiblockModel(IPContent.Multiblock.pumpjack, modelNormal, texture, "", PumpjackMultiblock.INSTANCE, false);
-		BlockModelBuilder mirrored = multiblockModel(IPContent.Multiblock.pumpjack, modelMirrored, texture, "_mirrored", PumpjackMultiblock.INSTANCE, true);
-		
-		createMultiblock(IPContent.Multiblock.pumpjack, normal, mirrored, texture);
-	}
-	
-	private void cokerunit(){
-		ResourceLocation texture = modLoc("multiblock/cokerunit");
-		ResourceLocation modelNormal = modLoc("models/multiblock/obj/cokerunit.obj");
-		ResourceLocation modelMirrored = modLoc("models/multiblock/obj/cokerunit_mirrored.obj");
-		
-		BlockModelBuilder normal = multiblockModel(IPContent.Multiblock.cokerunit, modelNormal, texture, "", CokerUnitMultiblock.INSTANCE, false);
-		BlockModelBuilder mirrored = multiblockModel(IPContent.Multiblock.cokerunit, modelMirrored, texture, "_mirrored", CokerUnitMultiblock.INSTANCE, true);
-		
-		createMultiblock(IPContent.Multiblock.cokerunit, normal, mirrored, texture);
-	}
-	
+
 	private void hydrotreater(){
 		ResourceLocation texture = modLoc("multiblock/hydrotreater");
 		ResourceLocation modelNormal = modLoc("models/multiblock/obj/hydrotreater.obj");
@@ -208,33 +158,7 @@ public class IPBlockStates extends BlockStateProvider{
 		
 		return split;
 	}
-	
-	private void autolubricator(){
-		ResourceLocation texture = modLoc("models/lubricator");
-		
-		BlockModelBuilder lube_empty = this.models().withExistingParent("lube_empty", new ResourceLocation(ImmersiveEngineering.MODID, "block/ie_empty")).texture("particle", texture);
-		
-		BlockModelBuilder lubeModel = this.models().withExistingParent(getPath(IPContent.Blocks.auto_lubricator), mcLoc("block"))
-				.customLoader(OBJLoaderBuilder::begin).modelLocation(modLoc("models/block/obj/autolubricator.obj")).flipV(true).end()
-				.texture("texture", texture)
-				.texture("particle", texture);
-		
-		VariantBlockStateBuilder lubeBuilder = getVariantBuilder(IPContent.Blocks.auto_lubricator);
-		for(Direction dir: AutoLubricatorBlock.FACING.getAllowedValues()){
-			int rot = (90 * dir.getHorizontalIndex()) + 90 % 360;
-			
-			lubeBuilder.partialState()
-				.with(AutoLubricatorBlock.SLAVE, false)
-				.with(AutoLubricatorBlock.FACING, dir)
-				.setModels(new ConfiguredModel(lubeModel, 0, rot, false));
-			
-			lubeBuilder.partialState()
-				.with(AutoLubricatorBlock.SLAVE, true)
-				.with(AutoLubricatorBlock.FACING, dir)
-				.setModels(new ConfiguredModel(lube_empty));
-		}
-	}
-	
+	/*
 	private void flarestack(){
 		ResourceLocation texture = modLoc("block/obj/flarestack");
 		ConfiguredModel emptyModel = new ConfiguredModel(this.models().withExistingParent("flare_empty",
@@ -255,7 +179,7 @@ public class IPBlockStates extends BlockStateProvider{
 		flarestackBuilder.partialState()
 			.with(FlarestackBlock.SLAVE, true)
 			.setModels(emptyModel);
-	}
+	}*/
 	
 	private void gasGenerator(){
 		ResourceLocation texture = modLoc("block/obj/generator");

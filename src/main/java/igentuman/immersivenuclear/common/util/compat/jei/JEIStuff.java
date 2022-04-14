@@ -3,9 +3,9 @@ package igentuman.immersivenuclear.common.util.compat.jei;
 import java.util.ArrayList;
 
 import igentuman.immersivenuclear.ImmersiveNuclear;
-import igentuman.immersivenuclear.api.crafting.DistillationRecipe;
+import igentuman.immersivenuclear.api.crafting.CoolingTowerRecipe;
 import igentuman.immersivenuclear.api.crafting.SulfurRecoveryRecipe;
-import igentuman.immersivenuclear.client.gui.DistillationTowerScreen;
+import igentuman.immersivenuclear.client.gui.CoolingTowerScreen;
 import igentuman.immersivenuclear.client.gui.HydrotreaterScreen;
 import igentuman.immersivenuclear.common.IPContent;
 import mezz.jei.api.IModPlugin;
@@ -31,25 +31,25 @@ public class JEIStuff implements IModPlugin{
 	public void registerCategories(IRecipeCategoryRegistration registration){
 		IGuiHelper guiHelper = registration.getJeiHelpers().getGuiHelper();
 		
-		registration.addRecipeCategories(new DistillationRecipeCategory(guiHelper));
+		registration.addRecipeCategories(new CoolingTowerRecipeCategory(guiHelper));
 		registration.addRecipeCategories(new SulfurRecoveryRecipeCategory(guiHelper));
 	}
 	
 	@Override
 	public void registerRecipes(IRecipeRegistration registration){
-		registration.addRecipes(new ArrayList<>(DistillationRecipe.recipes.values()), DistillationRecipeCategory.ID);
+		registration.addRecipes(new ArrayList<>(CoolingTowerRecipe.recipes.values()), CoolingTowerRecipeCategory.ID);
 		registration.addRecipes(new ArrayList<>(SulfurRecoveryRecipe.recipes.values()), SulfurRecoveryRecipeCategory.ID);
 	}
 	
 	@Override
 	public void registerRecipeCatalysts(IRecipeCatalystRegistration registration){
-		registration.addRecipeCatalyst(new ItemStack(IPContent.Multiblock.distillationtower), DistillationRecipeCategory.ID);
+		registration.addRecipeCatalyst(new ItemStack(IPContent.Multiblock.distillationtower), CoolingTowerRecipeCategory.ID);
 		registration.addRecipeCatalyst(new ItemStack(IPContent.Multiblock.hydrotreater), SulfurRecoveryRecipeCategory.ID);
 	}
 	
 	@Override
 	public void registerGuiHandlers(IGuiHandlerRegistration registration){
-		registration.addRecipeClickArea(DistillationTowerScreen.class, 85, 19, 18, 51, DistillationRecipeCategory.ID);
+		registration.addRecipeClickArea(CoolingTowerScreen.class, 85, 19, 18, 51, CoolingTowerRecipeCategory.ID);
 		registration.addRecipeClickArea(HydrotreaterScreen.class, 55, 9, 32, 51, SulfurRecoveryRecipeCategory.ID);
 	}
 }

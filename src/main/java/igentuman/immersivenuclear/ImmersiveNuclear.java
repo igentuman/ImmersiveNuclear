@@ -47,7 +47,7 @@ public class ImmersiveNuclear {
 	public static final ItemGroup creativeTab = new ItemGroup(MODID){
 		@Override
 		public ItemStack createIcon(){
-			return new ItemStack(IPContent.Fluids.crudeOil.getFilledBucket());
+			return new ItemStack(IPContent.Fluids.steam.getFilledBucket());
 		}
 	};
 	

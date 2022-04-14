@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
-import igentuman.immersivenuclear.client.gui.DistillationTowerScreen;
+import igentuman.immersivenuclear.client.gui.CoolingTowerScreen;
 import igentuman.immersivenuclear.client.gui.HydrotreaterScreen;
 import igentuman.immersivenuclear.client.render.MultiblockDistillationTowerRenderer;
 import igentuman.immersivenuclear.client.render.debugging.DebugRenderHandler;
@@ -26,9 +26,7 @@ import blusunrize.immersiveengineering.client.manual.ManualElementMultiblock;
 import blusunrize.immersiveengineering.client.models.ModelCoresample;
 import blusunrize.immersiveengineering.common.blocks.IEBlocks;
 import blusunrize.immersiveengineering.common.blocks.metal.MetalScaffoldingType;
-import blusunrize.immersiveengineering.common.blocks.multiblocks.IEMultiblocks;
 import blusunrize.immersiveengineering.common.gui.GuiHandler;
-import blusunrize.immersiveengineering.common.util.ItemNBTHelper;
 import blusunrize.lib.manual.ManualElementCrafting;
 import blusunrize.lib.manual.ManualElementTable;
 import blusunrize.lib.manual.ManualEntry;
@@ -37,7 +35,7 @@ import blusunrize.lib.manual.ManualInstance;
 import blusunrize.lib.manual.TextSplitter;
 import blusunrize.lib.manual.Tree.InnerNode;
 import igentuman.immersivenuclear.ImmersiveNuclear;
-import igentuman.immersivenuclear.api.crafting.DistillationRecipe;
+import igentuman.immersivenuclear.api.crafting.CoolingTowerRecipe;
 import igentuman.immersivenuclear.api.crafting.FlarestackHandler;
 import igentuman.immersivenuclear.api.energy.FuelHandler;
 import igentuman.immersivenuclear.common.crafting.RecipeReloadListener;
@@ -57,7 +55,6 @@ import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ModelResourceLocation;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.util.InputMappings;
 import net.minecraft.entity.Entity;
@@ -69,15 +66,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tags.ITag;
 import net.minecraft.tags.ITag.INamedTag;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.model.data.EmptyModelData;
@@ -88,9 +82,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ImmersiveNuclear.MODID)
 public class ClientProxy extends CommonProxy {
@@ -109,7 +101,7 @@ public class ClientProxy extends CommonProxy {
 	public void registerContainersAndScreens(){
 		super.registerContainersAndScreens();
 		
-		registerScreen(new ResourceLocation(ImmersiveNuclear.MODID, "distillationtower"), DistillationTowerScreen::new);
+		registerScreen(new ResourceLocation(ImmersiveNuclear.MODID, "distillationtower"), CoolingTowerScreen::new);
 		registerScreen(new ResourceLocation(ImmersiveNuclear.MODID, "hydrotreater"), HydrotreaterScreen::new);
 	}
 	
@@ -287,9 +279,9 @@ public class ClientProxy extends CommonProxy {
 		ManualEntry.ManualEntryBuilder builder = new ManualEntry.ManualEntryBuilder(man);
 		builder.addSpecialElement("distillationtower0", 0, () -> new ManualElementMultiblock(man, DistillationTowerMultiblock.INSTANCE));
 		builder.addSpecialElement("distillationtower1", 0, () -> {
-			Collection<DistillationRecipe> recipeList = DistillationRecipe.recipes.values();
+			Collection<CoolingTowerRecipe> recipeList = CoolingTowerRecipe.recipes.values();
 			List<ITextComponent[]> list = new ArrayList<ITextComponent[]>();
-			for(DistillationRecipe recipe:recipeList){
+			for(CoolingTowerRecipe recipe:recipeList){
 				boolean first = true;
 				for(FluidStack output:recipe.getFluidOutputs()){
 					ITextComponent outputName = output.getDisplayName();

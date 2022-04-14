@@ -1,6 +1,6 @@
 package igentuman.immersivenuclear.common;
 
-import igentuman.immersivenuclear.common.blocks.tileentities.DistillationTowerTileEntity;
+import igentuman.immersivenuclear.common.blocks.tileentities.CoolingTowerTileEntity;
 import igentuman.immersivenuclear.common.gui.DistillationTowerContainer;
 import igentuman.immersivenuclear.common.gui.HydrotreaterContainer;
 import org.apache.logging.log4j.LogManager;
@@ -33,7 +33,7 @@ public class CommonProxy{
 	}
 	
 	public void registerContainersAndScreens(){
-		GuiHandler.register(DistillationTowerTileEntity.class, new ResourceLocation(ImmersiveNuclear.MODID, "distillationtower"), DistillationTowerContainer::new);
+		GuiHandler.register(CoolingTowerTileEntity.class, new ResourceLocation(ImmersiveNuclear.MODID, "distillationtower"), DistillationTowerContainer::new);
 		GuiHandler.register(HydrotreaterTileEntity.class, new ResourceLocation(ImmersiveNuclear.MODID, "hydrotreater"), HydrotreaterContainer::new);
 	}
 	

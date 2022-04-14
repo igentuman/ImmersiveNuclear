@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Random;
 import igentuman.immersivenuclear.ImmersiveNuclear;
 import igentuman.immersivenuclear.common.cfg.IPServerConfig;
-import igentuman.immersivenuclear.common.fluids.NapalmFluid;
+import igentuman.immersivenuclear.common.fluids.HeatedSodium;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.entity.player.PlayerEntity;
@@ -86,7 +86,7 @@ public class CommonEventHandler{
 				for(BlockPos position:iterate){
 					BlockState state = event.world.getBlockState(position);
 					if(state.getBlock() instanceof FlowingFluidBlock && state.getBlock() == IPContent.Fluids.napalm.block){
-						((NapalmFluid) IPContent.Fluids.napalm).processFire(event.world, position);
+						((HeatedSodium) IPContent.Fluids.napalm).processFire(event.world, position);
 					}
 					toRemove.get(d).add(position);
 				}

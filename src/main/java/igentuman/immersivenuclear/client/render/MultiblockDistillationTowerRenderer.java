@@ -4,7 +4,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import igentuman.immersivenuclear.ImmersiveNuclear;
-import igentuman.immersivenuclear.common.blocks.tileentities.DistillationTowerTileEntity;
+import igentuman.immersivenuclear.common.blocks.tileentities.CoolingTowerTileEntity;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
@@ -19,18 +19,18 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 
 @OnlyIn(Dist.CLIENT)
 @EventBusSubscriber(value = Dist.CLIENT, modid = ImmersiveNuclear.MODID, bus = Bus.MOD)
-public class MultiblockDistillationTowerRenderer extends TileEntityRenderer<DistillationTowerTileEntity>{
+public class MultiblockDistillationTowerRenderer extends TileEntityRenderer<CoolingTowerTileEntity>{
 	public MultiblockDistillationTowerRenderer(TileEntityRendererDispatcher dispatcher){
 		super(dispatcher);
 	}
 	
 	@Override
-	public boolean isGlobalRenderer(DistillationTowerTileEntity te){
+	public boolean isGlobalRenderer(CoolingTowerTileEntity te){
 		return true;
 	}
 	
 	@Override
-	public void render(DistillationTowerTileEntity te, float partialTicks, MatrixStack transform, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn){
+	public void render(CoolingTowerTileEntity te, float partialTicks, MatrixStack transform, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn){
 		if(te != null && te.formed && !te.isDummy()){
 			if(te.shouldRenderAsActive()){
 				combinedOverlayIn = OverlayTexture.NO_OVERLAY;

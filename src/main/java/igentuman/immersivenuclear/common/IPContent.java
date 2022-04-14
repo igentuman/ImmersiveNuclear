@@ -5,6 +5,7 @@ import java.util.List;
 
 import igentuman.immersivenuclear.common.blocks.IPBlockBase;
 import igentuman.immersivenuclear.common.blocks.stone.AsphaltBlock;
+import igentuman.immersivenuclear.common.fluids.*;
 import igentuman.immersivenuclear.common.util.IPEffects;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,9 +23,6 @@ import igentuman.immersivenuclear.common.blocks.metal.BlockDummy;
 import igentuman.immersivenuclear.common.blocks.metal.CoolingTowerBlock;
 import igentuman.immersivenuclear.common.blocks.metal.GasGeneratorBlock;
 import igentuman.immersivenuclear.common.blocks.metal.HydrotreaterBlock;
-import igentuman.immersivenuclear.common.fluids.DieselFluid;
-import igentuman.immersivenuclear.common.fluids.IPFluid;
-import igentuman.immersivenuclear.common.fluids.NapalmFluid;
 import igentuman.immersivenuclear.common.items.DebugItem;
 import igentuman.immersivenuclear.common.items.IPItemBase;
 import igentuman.immersivenuclear.common.items.OilCanItem;
@@ -58,19 +56,28 @@ public class IPContent{
 	public static final List<Fluid> registeredIPFluids = new ArrayList<>();
 	
 	public static class Multiblock{
-		public static Block distillationtower;
-		public static Block pumpjack;
-		public static Block cokerunit;
+		public static Block coolingtower;
 		public static Block hydrotreater;
 	}
 	
 	public static class Fluids{
-		public static IPFluid crudeOil;
-		public static IPFluid diesel;
-		public static IPFluid diesel_sulfur;
-		public static IPFluid lubricant;
-		public static IPFluid gasoline;
-		public static IPFluid napalm;
+		public static IPFluid steam_vapor;
+		public static IPFluid steam;
+		public static IPFluid high_quality_steam;
+
+		public static IPFluid fluorite_solution;
+
+		public static IPFluid sulfur_oxide;
+		public static IPFluid sulfur_trioxide;
+		public static IPFluid sulfuric_acid;
+		public static IPFluid technological_water;
+		public static IPFluid sodium;
+		public static IPFluid heated_sodium;
+		public static IPFluid melted_lead;
+		public static IPFluid heated_melted_lead;
+		public static IPFluid uranium_oxide;
+		public static IPFluid uranium_hexafluoride;
+
 	}
 	
 	public static class Blocks{
@@ -78,18 +85,12 @@ public class IPContent{
 		public static IPBlockBase petcoke;
 		
 		public static IPBlockBase gas_generator;
-		public static IPBlockBase auto_lubricator;
 		public static IPBlockBase flarestack;
-		
-		public static BlockDummy dummyOilOre;
-		public static BlockDummy dummyPipe;
-		public static BlockDummy dummyConveyor;
+
 	}
 	
 	public static class Items{
 		public static IPItemBase bitumen;
-		public static IPItemBase projector;
-		public static IPItemBase speedboat;
 		public static IPItemBase oil_can;
 		public static IPItemBase petcoke;
 		public static IPItemBase petcokedust;
@@ -101,22 +102,27 @@ public class IPContent{
 	public static void populate(){
 		IPContent.debugItem = new DebugItem();
 		
-		Fluids.diesel = new DieselFluid("diesel");
-		Fluids.diesel_sulfur = new DieselFluid("diesel_sulfur");
-		Fluids.lubricant = new IPFluid("lubricant", 925, 1000);
-		Fluids.gasoline = new IPFluid("gasoline", 789, 1200);
-		Fluids.napalm = new NapalmFluid();
-		
-		Blocks.dummyOilOre = new BlockDummy("dummy_oil_ore");
-		Blocks.dummyPipe = new BlockDummy("dummy_pipe");
-		Blocks.dummyConveyor = new BlockDummy("dummy_conveyor");
+		Fluids.technological_water = new TechnologicalWater();
+		Fluids.steam = new Steam();
+		Fluids.high_quality_steam = new HighQualitySteam();
+		Fluids.steam_vapor = new SteamVapor();
+		Fluids.melted_lead = new MeltedLead();
+		Fluids.heated_melted_lead = new HeatedMeltedLead();
+		Fluids.sodium = new Sodium();
+		Fluids.uranium_oxide = new UraniumOxide();
+		Fluids.uranium_hexafluoride = new UraniumHexaluoride();
+		Fluids.heated_sodium = new HeatedSodium();
+		Fluids.sulfuric_acid = new SulfuricAcid();
+		Fluids.sulfur_oxide = new SulfurOxide();
+		Fluids.sulfur_trioxide = new SulfurTrioxide();
+		Fluids.fluorite_solution = new FluoriteSolution();
 		
 		Blocks.gas_generator = new GasGeneratorBlock();
 		
 		AsphaltBlock asphalt = new AsphaltBlock();
 		Blocks.asphalt = asphalt;
 		
-		Multiblock.distillationtower = new CoolingTowerBlock();
+		Multiblock.coolingtower = new CoolingTowerBlock();
 		Multiblock.hydrotreater = new HydrotreaterBlock();
 		
 		Items.bitumen = new IPItemBase("bitumen");
@@ -139,25 +145,16 @@ public class IPContent{
 		//blockFluidLubricant.setPotionEffects(new PotionEffect(IEPotions.slippery, 100, 1));
 		//blockFluidNapalm.setPotionEffects(new PotionEffect(IEPotions.flammable, 140, 2));
 		
-		ChemthrowerHandler.registerEffect(IPTags.Fluids.lubricant, new ChemthrowerEffect_Potion(null, 0, IEPotions.slippery, 60, 1));
 
-		ChemthrowerHandler.registerFlammable(IPTags.Fluids.crudeOil);
-		ChemthrowerHandler.registerEffect(IPTags.Fluids.crudeOil, new ChemthrowerEffect_Potion(null, 0, IEPotions.flammable, 60, 1));
+		//ChemthrowerHandler.registerFlammable(IPTags.Fluids.crudeOil);
+		//ChemthrowerHandler.registerEffect(IPTags.Fluids.crudeOil, new ChemthrowerEffect_Potion(null, 0, IEPotions.flammable, 60, 1));
 		
-		ChemthrowerHandler.registerFlammable(IPTags.Fluids.gasoline);
-		ChemthrowerHandler.registerEffect(IPTags.Fluids.gasoline, new ChemthrowerEffect_Potion(null, 0, IEPotions.flammable, 60, 1));
-		
-		ChemthrowerHandler.registerFlammable(IPTags.Fluids.napalm);
-		ChemthrowerHandler.registerEffect(IPTags.Fluids.napalm, new ChemthrowerEffect_Potion(null, 0, IEPotions.flammable, 60, 2));
-		
+
 		MultiblockHandler.registerMultiblock(DistillationTowerMultiblock.INSTANCE);
 		MultiblockHandler.registerMultiblock(HydroTreaterMultiblock.INSTANCE);
 		
 		//ConfigUtils.addFuel(IPServerConfig.GENERATION.fuels.get());
 		//ConfigUtils.addBoatFuel(IPServerConfig.MISCELLANEOUS.boat_fuels.get());
-		
-		LubricantHandler.register(IPTags.Fluids.lubricant, 3);
-		LubricantHandler.register(IETags.fluidPlantoil, 12);
 		
 		FlarestackHandler.register(IPTags.Utility.burnableInFlarestack);
 

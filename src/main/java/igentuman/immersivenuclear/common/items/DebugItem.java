@@ -1,21 +1,18 @@
 package igentuman.immersivenuclear.common.items;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 
-import igentuman.immersivenuclear.common.blocks.tileentities.DistillationTowerTileEntity;
+import igentuman.immersivenuclear.common.blocks.tileentities.CoolingTowerTileEntity;
 import igentuman.immersivenuclear.common.blocks.tileentities.GasGeneratorTileEntity;
 import org.lwjgl.glfw.GLFW;
 
-import blusunrize.immersiveengineering.api.DimensionChunkCoords;
 import blusunrize.immersiveengineering.client.ClientUtils;
 import blusunrize.immersiveengineering.common.blocks.generic.PoweredMultiblockTileEntity;
 import blusunrize.immersiveengineering.common.util.inventory.MultiFluidTank;
 import igentuman.immersivenuclear.ImmersiveNuclear;
 import igentuman.immersivenuclear.client.model.IPModels;
 import igentuman.immersivenuclear.common.IPContent;
-import igentuman.immersivenuclear.common.IPSaveData;
 import igentuman.immersivenuclear.common.network.IPPacketHandler;
 import igentuman.immersivenuclear.common.network.MessageDebugSync;
 import igentuman.immersivenuclear.common.particle.IPParticleTypes;
@@ -146,15 +143,15 @@ public class DebugItem extends IPItemBase{
 				return ActionResultType.SUCCESS;
 			}
 			case INFO_TE_DISTILLATION_TOWER:{
-				if(te instanceof DistillationTowerTileEntity && !context.getWorld().isRemote){
-					DistillationTowerTileEntity tower = (DistillationTowerTileEntity) te;
+				if(te instanceof CoolingTowerTileEntity && !context.getWorld().isRemote){
+					CoolingTowerTileEntity tower = (CoolingTowerTileEntity) te;
 					if(!tower.offsetToMaster.equals(BlockPos.ZERO)){
 						tower = tower.master();
 					}
 					
 					IFormattableTextComponent tankInText = new StringTextComponent("\nInputFluids: ");
 					{
-						MultiFluidTank tank = tower.tanks[DistillationTowerTileEntity.TANK_OUTPUT];
+						MultiFluidTank tank = tower.tanks[CoolingTowerTileEntity.TANK_OUTPUT];
 						for(int i = 0;i < tank.fluids.size();i++){
 							FluidStack fstack = tank.fluids.get(i);
 							tankInText.appendString(" ").appendSibling(fstack.getDisplayName()).appendString(" " + fstack.getAmount() + "mB,");
@@ -163,7 +160,7 @@ public class DebugItem extends IPItemBase{
 					
 					IFormattableTextComponent tankOutText = new StringTextComponent("\nOutputFluids: ");
 					{
-						MultiFluidTank tank = tower.tanks[DistillationTowerTileEntity.TANK_INPUT];
+						MultiFluidTank tank = tower.tanks[CoolingTowerTileEntity.TANK_INPUT];
 						for(int i = 0;i < tank.fluids.size();i++){
 							FluidStack fstack = tank.fluids.get(i);
 							tankOutText.appendString(" ").appendSibling(fstack.getDisplayName()).appendString(" " + fstack.getAmount() + "mB,");
