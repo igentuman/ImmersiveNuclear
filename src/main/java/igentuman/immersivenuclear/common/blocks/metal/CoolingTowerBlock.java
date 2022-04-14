@@ -15,8 +15,8 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 
-public class DistillationTowerBlock extends IPMetalMultiblock<DistillationTowerTileEntity>{
-	public DistillationTowerBlock(){
+public class CoolingTowerBlock extends IPMetalMultiblock<DistillationTowerTileEntity>{
+	public CoolingTowerBlock(){
 		super("distillationtower", () -> IPTileTypes.TOWER.get());
 	}
 	

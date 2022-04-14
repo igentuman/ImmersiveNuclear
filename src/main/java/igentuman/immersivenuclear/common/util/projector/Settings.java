@@ -6,7 +6,6 @@ import javax.annotation.Nullable;
 
 import blusunrize.immersiveengineering.api.multiblocks.MultiblockHandler;
 import blusunrize.immersiveengineering.api.multiblocks.MultiblockHandler.IMultiblock;
-import igentuman.immersivenuclear.common.network.MessageProjectorSync;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -96,14 +95,6 @@ public class Settings{
 	public void switchMode(){
 		int id = this.mode.ordinal() + 1;
 		this.mode = Mode.values()[id % Mode.values().length];
-	}
-	
-	public void sendPacketToServer(Hand hand){
-		MessageProjectorSync.sendToServer(this, hand);
-	}
-	
-	public void sendPacketToClient(PlayerEntity player, Hand hand){
-		MessageProjectorSync.sendToClient(player, this, hand);
 	}
 	
 	public void setRotation(Rotation rotation){

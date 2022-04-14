@@ -18,22 +18,13 @@ import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
 public class IPModels{
 	@SubscribeEvent
 	public static void init(FMLConstructModEvent event){
-		add(ModelPumpjack.ID, new ModelPumpjack());
-		
-		add(ModelLubricantPipes.Crusher.ID, new ModelLubricantPipes.Crusher());
-		
-		add(ModelLubricantPipes.Excavator.ID_NORMAL, new ModelLubricantPipes.Excavator(false));
-		add(ModelLubricantPipes.Excavator.ID_MIRRORED, new ModelLubricantPipes.Excavator(true));
-		
-		add(ModelLubricantPipes.Pumpjack.ID_NORMAL, new ModelLubricantPipes.Pumpjack(false));
-		add(ModelLubricantPipes.Pumpjack.ID_MIRRORED, new ModelLubricantPipes.Pumpjack(true));
+
 	}
 	
 	private static final Map<String, IPModel> MODELS = new HashMap<>();
 	
 	/**
 	 * @param id The String-ID of the Model.
-	 * @param constructor The model constructor
 	 */
 	public static void add(String id, IPModel model){
 		if(MODELS.containsKey(id)){

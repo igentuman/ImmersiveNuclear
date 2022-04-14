@@ -9,14 +9,9 @@ import blusunrize.immersiveengineering.client.utils.GuiHelper;
 import blusunrize.immersiveengineering.common.blocks.generic.MultiblockPartTileEntity;
 import blusunrize.immersiveengineering.common.blocks.generic.PoweredMultiblockTileEntity;
 import blusunrize.immersiveengineering.common.util.inventory.MultiFluidTank;
-import igentuman.immersivenuclear.api.crafting.LubricatedHandler;
-import igentuman.immersivenuclear.api.crafting.LubricatedHandler.LubricatedTileInfo;
 import igentuman.immersivenuclear.common.IPContent;
-import igentuman.immersivenuclear.common.blocks.tileentities.CokerUnitTileEntity;
-import igentuman.immersivenuclear.common.blocks.tileentities.CokerUnitTileEntity.CokingChamber;
 import igentuman.immersivenuclear.common.blocks.tileentities.DistillationTowerTileEntity;
 import igentuman.immersivenuclear.common.blocks.tileentities.HydrotreaterTileEntity;
-import igentuman.immersivenuclear.common.entity.MotorboatEntity;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -83,9 +78,6 @@ public class DebugRenderHandler{
 								if(te instanceof DistillationTowerTileEntity){
 									distillationtower(debugOut, (DistillationTowerTileEntity) multiblock);
 									
-								}else if(te instanceof CokerUnitTileEntity){
-									cokerunit(debugOut, (CokerUnitTileEntity) multiblock);
-									
 								}else if(te instanceof HydrotreaterTileEntity){
 									hydrotreater(debugOut, (HydrotreaterTileEntity) multiblock);
 								}
@@ -121,15 +113,7 @@ public class DebugRenderHandler{
 										
 										debugOut.add(2, toText(poweredGeneric.energyStorage.getEnergyStored() + "/" + poweredGeneric.energyStorage.getMaxEnergyStored() + "RF"));
 									}
-									
-									synchronized(LubricatedHandler.lubricatedTiles){
-										for(LubricatedTileInfo info:LubricatedHandler.lubricatedTiles){
-											if(info.pos.equals(generic.getPos())){
-												name.appendSibling(toText(" (Lubricated " + info.ticks + ")").mergeStyle(TextFormatting.YELLOW));
-											}
-										}
-									}
-									
+
 									debugOut.add(2, name);
 								}
 								
@@ -139,33 +123,7 @@ public class DebugRenderHandler{
 						}
 						case ENTITY:{
 							EntityRayTraceResult result = (EntityRayTraceResult) rt;
-							
-							if(result.getEntity() instanceof MotorboatEntity){
-								MotorboatEntity boat = (MotorboatEntity) result.getEntity();
-								
-								List<ITextComponent> debugOut = new ArrayList<>();
-								
-								debugOut.add(toText("").appendSibling(boat.getDisplayName()).mergeStyle(TextFormatting.GOLD));
-								
-								FluidStack fluid = boat.getContainedFluid();
-								if(fluid == FluidStack.EMPTY){
-									debugOut.add(toText("Tank: Empty"));
-								}else{
-									debugOut.add(toText("Tank: " + fluid.getAmount() + "/" + boat.getMaxFuel() + "mB of ").appendSibling(fluid.getDisplayName()));
-								}
-								
-								NonNullList<ItemStack> upgrades = boat.getUpgrades();
-								int i = 0;
-								for(ItemStack upgrade:upgrades){
-									if(upgrade == null || upgrade == ItemStack.EMPTY){
-										debugOut.add(toText("Upgrade " + (++i) + ": Empty"));
-									}else{
-										debugOut.add(toText("Upgrade " + (++i) + ": ").appendSibling(upgrade.getDisplayName()));
-									}
-								}
-								
-								renderOverlay(event.getMatrixStack(), debugOut);
-							}
+
 							break;
 						}
 						default:
@@ -215,36 +173,7 @@ public class DebugRenderHandler{
 			}
 		}
 	}
-	
-	private static void cokerunit(List<ITextComponent> text, CokerUnitTileEntity coker){
-		{
-			FluidTank tank = coker.bufferTanks[CokerUnitTileEntity.TANK_INPUT];
-			FluidStack fs = tank.getFluid();
-			text.add(toText("In Buffer: " + (fs.getAmount() + "/" + tank.getCapacity() + "mB " + (fs.isEmpty() ? "" : "(" + fs.getDisplayName().getString() + ")"))));
-		}
-		
-		{
-			FluidTank tank = coker.bufferTanks[CokerUnitTileEntity.TANK_OUTPUT];
-			FluidStack fs = tank.getFluid();
-			text.add(toText("Out Buffer: " + (fs.getAmount() + "/" + tank.getCapacity() + "mB " + (fs.isEmpty() ? "" : "(" + fs.getDisplayName().getString() + ")"))));
-		}
-		
-		for(int i = 0;i < coker.chambers.length;i++){
-			CokingChamber chamber = coker.chambers[i];
-			FluidTank tank = chamber.getTank();
-			FluidStack fs = tank.getFluid();
-			
-			float completed = chamber.getTotalAmount() > 0 ? 100 * (chamber.getOutputAmount() / (float) chamber.getTotalAmount()) : 0;
-			
-			text.add(toText("Chamber " + i).mergeStyle(TextFormatting.UNDERLINE, TextFormatting.AQUA));
-			text.add(toText("State: " + chamber.getState().toString()));
-			text.add(toText("  Tank: " + (fs.getAmount() + "/" + tank.getCapacity() + "mB " + (fs.isEmpty() ? "" : "(" + fs.getDisplayName().getString() + ")"))));
-			text.add(toText("  Content: " + chamber.getTotalAmount() + " / " + chamber.getCapacity()).appendString(" (" + chamber.getInputItem().getDisplayName().getString() + ")"));
-			text.add(toText("  Out: " + chamber.getOutputItem().getDisplayName().getString()));
-			text.add(toText("  " + MathHelper.floor(completed) + "% Completed. (Raw: " + completed + ")"));
-		}
-	}
-	
+
 	private static void hydrotreater(List<ITextComponent> text, HydrotreaterTileEntity treater){
 		IFluidTank[] tanks = treater.getInternalTanks();
 		if(tanks != null && tanks.length > 0){

@@ -5,10 +5,6 @@ import java.util.List;
 
 import igentuman.immersivenuclear.common.blocks.IPBlockBase;
 import igentuman.immersivenuclear.common.blocks.stone.AsphaltBlock;
-import igentuman.immersivenuclear.common.blocks.stone.AsphaltSlab;
-import igentuman.immersivenuclear.common.blocks.stone.AsphaltStairs;
-import igentuman.immersivenuclear.common.blocks.stone.PetcokeBlock;
-import igentuman.immersivenuclear.common.blocks.tileentities.PumpjackTileEntity;
 import igentuman.immersivenuclear.common.util.IPEffects;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,41 +13,23 @@ import blusunrize.immersiveengineering.api.IETags;
 import blusunrize.immersiveengineering.api.multiblocks.MultiblockHandler;
 import blusunrize.immersiveengineering.api.tool.ChemthrowerHandler;
 import blusunrize.immersiveengineering.api.tool.ChemthrowerHandler.ChemthrowerEffect_Potion;
-import blusunrize.immersiveengineering.common.blocks.metal.CrusherTileEntity;
-import blusunrize.immersiveengineering.common.blocks.metal.ExcavatorTileEntity;
 import blusunrize.immersiveengineering.common.util.IEPotions;
 import igentuman.immersivenuclear.ImmersiveNuclear;
 import igentuman.immersivenuclear.api.IPTags;
 import igentuman.immersivenuclear.api.crafting.FlarestackHandler;
 import igentuman.immersivenuclear.api.crafting.LubricantHandler;
-import igentuman.immersivenuclear.api.crafting.LubricatedHandler;
-import igentuman.immersivenuclear.api.crafting.LubricatedHandler.LubricantEffect;
-import igentuman.immersivenuclear.common.blocks.metal.AutoLubricatorBlock;
 import igentuman.immersivenuclear.common.blocks.metal.BlockDummy;
-import igentuman.immersivenuclear.common.blocks.metal.CokerUnitBlock;
-import igentuman.immersivenuclear.common.blocks.metal.DistillationTowerBlock;
-import igentuman.immersivenuclear.common.blocks.metal.FlarestackBlock;
+import igentuman.immersivenuclear.common.blocks.metal.CoolingTowerBlock;
 import igentuman.immersivenuclear.common.blocks.metal.GasGeneratorBlock;
 import igentuman.immersivenuclear.common.blocks.metal.HydrotreaterBlock;
-import igentuman.immersivenuclear.common.blocks.metal.PumpjackBlock;
-import igentuman.immersivenuclear.common.entity.MotorboatEntity;
-import igentuman.immersivenuclear.common.fluids.CrudeOilFluid;
 import igentuman.immersivenuclear.common.fluids.DieselFluid;
 import igentuman.immersivenuclear.common.fluids.IPFluid;
 import igentuman.immersivenuclear.common.fluids.NapalmFluid;
 import igentuman.immersivenuclear.common.items.DebugItem;
 import igentuman.immersivenuclear.common.items.IPItemBase;
-import igentuman.immersivenuclear.common.items.IPUpgradeItem;
-import igentuman.immersivenuclear.common.items.MotorboatItem;
 import igentuman.immersivenuclear.common.items.OilCanItem;
-import igentuman.immersivenuclear.common.items.ProjectorItem;
-import igentuman.immersivenuclear.common.lubehandlers.CrusherLubricationHandler;
-import igentuman.immersivenuclear.common.lubehandlers.ExcavatorLubricationHandler;
-import igentuman.immersivenuclear.common.lubehandlers.PumpjackLubricationHandler;
-import igentuman.immersivenuclear.common.multiblocks.CokerUnitMultiblock;
 import igentuman.immersivenuclear.common.multiblocks.DistillationTowerMultiblock;
 import igentuman.immersivenuclear.common.multiblocks.HydroTreaterMultiblock;
-import igentuman.immersivenuclear.common.multiblocks.PumpjackMultiblock;
 import igentuman.immersivenuclear.common.particle.FlareFire;
 import igentuman.immersivenuclear.common.particle.IPParticleTypes;
 import net.minecraft.block.Block;
@@ -97,8 +75,6 @@ public class IPContent{
 	
 	public static class Blocks{
 		public static IPBlockBase asphalt;
-		public static AsphaltSlab asphalt_slab;
-		public static AsphaltStairs asphalt_stair;
 		public static IPBlockBase petcoke;
 		
 		public static IPBlockBase gas_generator;
@@ -119,21 +95,12 @@ public class IPContent{
 		public static IPItemBase petcokedust;
 	}
 	
-	public static class BoatUpgrades{
-		public static IPUpgradeItem reinforced_hull;
-		public static IPUpgradeItem ice_breaker;
-		public static IPUpgradeItem tank;
-		public static IPUpgradeItem rudders;
-		public static IPUpgradeItem paddles;
-	}
-	
 	public static DebugItem debugItem;
 	
 	/** block/item/fluid population */
 	public static void populate(){
 		IPContent.debugItem = new DebugItem();
 		
-		Fluids.crudeOil = new CrudeOilFluid();
 		Fluids.diesel = new DieselFluid("diesel");
 		Fluids.diesel_sulfur = new DieselFluid("diesel_sulfur");
 		Fluids.lubricant = new IPFluid("lubricant", 925, 1000);
@@ -144,25 +111,16 @@ public class IPContent{
 		Blocks.dummyPipe = new BlockDummy("dummy_pipe");
 		Blocks.dummyConveyor = new BlockDummy("dummy_conveyor");
 		
-		Blocks.petcoke = new PetcokeBlock();
 		Blocks.gas_generator = new GasGeneratorBlock();
 		
 		AsphaltBlock asphalt = new AsphaltBlock();
 		Blocks.asphalt = asphalt;
-		Blocks.asphalt_slab = new AsphaltSlab(asphalt);
-		Blocks.asphalt_stair = new AsphaltStairs(asphalt);
 		
-		Blocks.auto_lubricator = new AutoLubricatorBlock("auto_lubricator");
-		Blocks.flarestack = new FlarestackBlock();
-		
-		Multiblock.distillationtower = new DistillationTowerBlock();
-		Multiblock.pumpjack = new PumpjackBlock();
-		Multiblock.cokerunit = new CokerUnitBlock();
+		Multiblock.distillationtower = new CoolingTowerBlock();
 		Multiblock.hydrotreater = new HydrotreaterBlock();
 		
 		Items.bitumen = new IPItemBase("bitumen");
 		Items.oil_can = new OilCanItem("oil_can");
-		Items.speedboat = new MotorboatItem("speedboat");
 		Items.petcoke = new IPItemBase("petcoke"){
 			@Override
 			public int getBurnTime(ItemStack itemStack){
@@ -170,14 +128,6 @@ public class IPContent{
 			}
 		};
 		Items.petcokedust = new IPItemBase("petcoke_dust");
-		
-		BoatUpgrades.reinforced_hull = new IPUpgradeItem("reinforced_hull", MotorboatItem.UPGRADE_TYPE);
-		BoatUpgrades.ice_breaker = new IPUpgradeItem("icebreaker", MotorboatItem.UPGRADE_TYPE);
-		BoatUpgrades.tank = new IPUpgradeItem("tank", MotorboatItem.UPGRADE_TYPE);
-		BoatUpgrades.rudders = new IPUpgradeItem("rudders", MotorboatItem.UPGRADE_TYPE);
-		BoatUpgrades.paddles = new IPUpgradeItem("paddles", MotorboatItem.UPGRADE_TYPE);
-		
-		Items.projector = new ProjectorItem("projector");
 	}
 	
 	public static void preInit(){
@@ -189,10 +139,8 @@ public class IPContent{
 		//blockFluidLubricant.setPotionEffects(new PotionEffect(IEPotions.slippery, 100, 1));
 		//blockFluidNapalm.setPotionEffects(new PotionEffect(IEPotions.flammable, 140, 2));
 		
-		ChemthrowerHandler.registerEffect(IPTags.Fluids.lubricant, new LubricantEffect());
 		ChemthrowerHandler.registerEffect(IPTags.Fluids.lubricant, new ChemthrowerEffect_Potion(null, 0, IEPotions.slippery, 60, 1));
-		ChemthrowerHandler.registerEffect(IETags.fluidPlantoil, new LubricantEffect());
-		
+
 		ChemthrowerHandler.registerFlammable(IPTags.Fluids.crudeOil);
 		ChemthrowerHandler.registerEffect(IPTags.Fluids.crudeOil, new ChemthrowerEffect_Potion(null, 0, IEPotions.flammable, 60, 1));
 		
@@ -203,8 +151,6 @@ public class IPContent{
 		ChemthrowerHandler.registerEffect(IPTags.Fluids.napalm, new ChemthrowerEffect_Potion(null, 0, IEPotions.flammable, 60, 2));
 		
 		MultiblockHandler.registerMultiblock(DistillationTowerMultiblock.INSTANCE);
-		MultiblockHandler.registerMultiblock(PumpjackMultiblock.INSTANCE);
-		MultiblockHandler.registerMultiblock(CokerUnitMultiblock.INSTANCE);
 		MultiblockHandler.registerMultiblock(HydroTreaterMultiblock.INSTANCE);
 		
 		//ConfigUtils.addFuel(IPServerConfig.GENERATION.fuels.get());
@@ -214,10 +160,7 @@ public class IPContent{
 		LubricantHandler.register(IETags.fluidPlantoil, 12);
 		
 		FlarestackHandler.register(IPTags.Utility.burnableInFlarestack);
-		
-		LubricatedHandler.registerLubricatedTile(PumpjackTileEntity.class, PumpjackLubricationHandler::new);
-		LubricatedHandler.registerLubricatedTile(ExcavatorTileEntity.class, ExcavatorLubricationHandler::new);
-		LubricatedHandler.registerLubricatedTile(CrusherTileEntity.class, CrusherLubricationHandler::new);
+
 	}
 	
 	@SubscribeEvent
@@ -259,7 +202,7 @@ public class IPContent{
 	@SubscribeEvent
 	public static void registerEntityTypes(RegistryEvent.Register<EntityType<?>> event){
 		try{
-			event.getRegistry().register(MotorboatEntity.TYPE);
+			//event.getRegistry().register(INuclearEntity.TYPE);
 		}catch(Throwable e){
 			log.error("Failed to register Speedboat Entity. {}", e.getMessage());
 			throw e;

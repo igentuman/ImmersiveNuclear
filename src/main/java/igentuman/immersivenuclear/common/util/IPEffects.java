@@ -1,7 +1,6 @@
 package igentuman.immersivenuclear.common.util;
 
 import igentuman.immersivenuclear.ImmersiveNuclear;
-import igentuman.immersivenuclear.common.entity.MotorboatEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
@@ -12,7 +11,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class IPEffects{
 	/**
 	 * This is only as a burn prevention for when someone dismounts the
-	 * {@link MotorboatEntity} while that is in lava<br>
+	
 	 */
 	public static Effect ANTI_DISMOUNT_FIRE;
 	

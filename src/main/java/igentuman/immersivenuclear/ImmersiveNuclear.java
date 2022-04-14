@@ -1,11 +1,9 @@
 package igentuman.immersivenuclear;
 
-import igentuman.immersivenuclear.api.crafting.pumpjack.PumpjackHandler;
 import igentuman.immersivenuclear.client.ClientProxy;
 import igentuman.immersivenuclear.common.cfg.IPClientConfig;
 import igentuman.immersivenuclear.common.cfg.IPCommonConfig;
 import igentuman.immersivenuclear.common.cfg.IPServerConfig;
-import igentuman.immersivenuclear.common.util.commands.ReservoirCommand;
 import igentuman.immersivenuclear.common.util.loot.IPLootFunctions;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -105,7 +103,6 @@ public class ImmersiveNuclear {
 		
 		proxy.postInit();
 		
-		PumpjackHandler.recalculateChances();
 	}
 	
 	public void loadComplete(FMLLoadCompleteEvent event){
@@ -121,11 +118,9 @@ public class ImmersiveNuclear {
 	}
 	
 	public void registerCommand(RegisterCommandsEvent event){
-		LiteralArgumentBuilder<CommandSource> ip = Commands.literal("ip");
+		LiteralArgumentBuilder<CommandSource> inuclear = Commands.literal("inuclear");
 		
-		ip.then(ReservoirCommand.create());
-		
-		event.getDispatcher().register(ip);
+		event.getDispatcher().register(inuclear);
 	}
 	
 	public void addReloadListeners(AddReloadListenerEvent event){
@@ -141,6 +136,5 @@ public class ImmersiveNuclear {
 			IPSaveData.setInstance(worldData);
 		}
 		
-		PumpjackHandler.recalculateChances();
 	}
 }
