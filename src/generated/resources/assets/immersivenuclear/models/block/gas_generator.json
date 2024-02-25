@@ -1,9 +1,0 @@
-{
-  "textures": {
-    "texture": "immersivenuclear:block/obj/generator",
-    "particle": "immersivenuclear:block/obj/generator"
-  },
-  "loader": "forge:obj",
-  "model": "immersivenuclear:models/block/obj/generator.obj",
-  "flip-v": true
-}
