@@ -1,0 +1,347 @@
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+import net.minecraftforge.gradle.common.tasks.SignJar
+import org.gradle.work.Incremental
+
+plugins {
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+    id 'org.spongepowered.mixin' version '0.7-SNAPSHOT'
+    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
+    id 'org.jetbrains.gradle.plugin.idea-ext' version '1.1.6'
+    id 'eclipse'
+    id 'idea'
+}
+
+version = buildVersionString()
+group = 'igentuman.immersivenuclear'
+archivesBaseName = 'Immersivenuclear'
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+jar.enabled = false
+
+sourceSets {
+    main {
+        resources {
+            srcDirs = [
+                    "$rootDir/src/main/resources",
+                    "$rootDir/src/generated/resources",
+            ]
+        }
+    }
+    datagen {
+        compileClasspath += main.compileClasspath
+        runtimeClasspath += main.runtimeClasspath
+        compileClasspath += main.output
+        runtimeClasspath += main.output
+    }
+    test {
+    }
+}
+
+def version_replaces = [
+        'version'      : project.version,
+        'mc_version'   : version_minecraft,
+        'forge_version': version_forge,
+        'jei_version'  : version_jei,
+]
+
+def jsonPatterns = ["**/*.json", "**/*.mcmeta"]
+
+processResources {
+    duplicatesStrategy = DuplicatesStrategy.FAIL
+    inputs.properties(version_replaces)
+    filesMatching("META-INF/mods.toml") {
+        expand version_replaces
+    }
+    exclude ".cache"
+    //Minify json resources
+    doLast {
+        fileTree(dir: getOutputs().getFiles().getAsPath(), includes: jsonPatterns).each {
+            File file -> file.setText(JsonOutput.toJson(new JsonSlurper().parse(file, 'UTF-8')))
+        }
+    }
+}
+
+// When using "Run using IntelliJ" (the only option with well-working hotswapping) the used "resources" directory is
+// different from the one used by gradle/the processResources task
+task copyModsTomlForIntelliJ(type: Copy) {
+    from processResources.destinationDir
+    into "$projectDir/out/production/resources"
+    include "META-INF/mods.toml"
+}
+
+minecraft {
+    mappings channel: 'parchment', version: "$version_parchment-$version_minecraft"
+    //mappings channel: 'official', version: version_minecraft
+
+    runs {
+        client {
+            workingDirectory project.file('run')
+
+            // Recommended logging data for a userdev environment
+            property 'forge.logging.markers', 'SCAN'
+            property 'forge.enabledGameTestNamespaces', 'immersivenuclear'
+
+            // Recommended logging level for the console
+            property 'forge.logging.console.level', 'debug'
+            // TODO not really ideal, is it?
+            ideaModule project.name + ".gametest"
+            mods {
+                immersivenuclear {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        server {
+            workingDirectory project.file('run')
+
+            // Recommended logging data for a userdev environment
+            property 'forge.logging.markers', ''
+
+            // Recommended logging level for the console
+            property 'forge.logging.console.level', 'debug'
+            property 'forge.enabledGameTestNamespaces', 'immersivenuclear'
+
+            // Disable GUI by default, the IDE console can be used to enter commands
+            arg '-nogui'
+
+            mods {
+                immersivenuclear {
+                    source sourceSets.main
+                }
+            }
+        }
+        data {
+            workingDirectory project.file('run')
+
+            // Recommended logging data for a userdev environment
+            property 'forge.logging.markers', ''
+
+            // Recommended logging level for the console
+            property 'forge.logging.console.level', 'debug'
+            property 'fml.earlyprogresswindow', 'false'
+
+            args '--mod', 'immersivenuclear', '--all', '--output', file('src/generated/resources/'), '--validate',
+                    '--existing', sourceSets.main.resources.srcDirs[0]
+            ideaModule project.name+".datagen"
+
+            mods {
+                immersivenuclear {
+                    source sourceSets.main
+                    source sourceSets.datagen
+                }
+            }
+        }
+        gameTestServer {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', ''
+
+            property 'forge.logging.console.level', 'debug'
+            property 'forge.enabledGameTestNamespaces', 'immersivenuclear'
+
+            ideaModule project.name + ".gametest"
+
+            mods {
+                immersivenuclear {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
+}
+
+repositories {
+    maven { // JEI & BlockModelSplitter
+        name 'Jared maven'
+        url 'https://maven.blamejared.com/'
+    }
+    maven {//Curse maven, in case some other maven goes offline and for mods that don't have a maven
+        url "https://cfa2.cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
+    maven { // CC-Tweaked
+        url 'https://squiddev.cc/maven/'
+        content {
+            includeGroup("cc.tweaked")
+            includeModule("org.squiddev", "Cobalt")
+        }
+    }
+    maven { url "https://www.cursemaven.com" }
+}
+
+dependencies {
+//    minecraft "net.neoforged:forge:${version_minecraft}-${version_forge}"
+    minecraft "net.minecraftforge:forge:${version_minecraft}-${version_forge}"
+
+    implementation fg.deobf("curse.maven:immersive-engineering-231951:6206989")
+    compileOnly fg.deobf("mezz.jei:jei-1.20.1-forge-api:${version_jei}")
+    compileOnly fg.deobf("mezz.jei:jei-1.20.1-common-api:${version_jei}")
+    compileOnly fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-1.20.1:14.0.34")
+    //TODO only API. For some reason IPeripheral (an API class) does not show up in the API artifact
+    // compileOnly fg.deobf("cc.tweaked:cc-tweaked-1.19.3-forge-api:${version_cctweaked}")
+    compileOnly fg.deobf("cc.tweaked:cc-tweaked-1.20.1-forge:${version_cctweaked}")
+    compileOnly fg.deobf("curse.maven:the-one-probe-245211:3825695")
+    compileOnly fg.deobf("curse.maven:curios-309927:4780213")
+    compileOnly fg.deobf("curse.maven:jade-324717:4801177")
+    compileOnly fg.deobf("curse.maven:opencomputers2-437654:3630307")
+
+    //implementation "malte0811:BlockModelSplitter:2.0.1"
+    testImplementation('junit:junit:4.13.2')
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+}
+
+def customGradle = rootProject.file('custom.gradle');
+if (customGradle.exists()) {
+    apply from: customGradle;
+}
+
+task signJar(type: SignJar) {
+    onlyIf {
+        project.hasProperty('keyStore')
+    }
+    if (project.hasProperty('keyStore')) {
+        keyStore = project.keyStore
+        alias = project.storeAlias
+        storePass = project.storePass
+        keyPass = project.storePass
+        inputFile = shadowJar.archiveFile
+        outputFile = shadowJar.archiveFile
+    } else {
+        logger.warn("No key store found, not signing the output jar\n")
+    }
+}
+
+
+String buildVersionString() {
+    String ie_output_version = "${version_ie}-${version_buildnumber}"
+    boolean jenkins_build = System.getenv("ie_add_git_rev") != null
+    if (jenkins_build) {
+        File changelog = new File("changelog.md")
+        if (!changelog.exists()) {
+            // Get the current minor/patch number and bump it
+            int idx = version_ie.lastIndexOf(".")
+            String major = version_ie.substring(0, idx)
+            String minor = version_ie.substring(idx + 1)
+            int bumped = minor.toInteger() + 1
+            ie_output_version = "${major}.${bumped}-pre"
+        } else {
+            // If the changelog file is present, we use the first line from that
+            String first_line = changelog.readLines().get(0)
+            ie_output_version = first_line.substring(first_line.indexOf("-") + 1)
+        }
+        // Now use describe to get the number of commits since the last tag
+        exec {
+            commandLine 'git', 'fetch', '-t'
+        }
+        def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'describe', '--long', '--abbrev=8', 'HEAD'
+            standardOutput = stdout
+        }
+        String descr = stdout.toString().trim()
+        descr = descr.substring(0, descr.length() - 10)
+        int idx = descr.lastIndexOf("-")
+        int pre_version = descr.substring(idx + 1).toInteger()
+        // If there have been more than 0 commits, consider this a pre-build
+        // otherwise use normal versioning (so a Jenkins build on the tag is equal to a release)
+        if (pre_version > 0)
+            ie_output_version = "${ie_output_version}.${pre_version}"
+    }
+    return "${version_minecraft}-${ie_output_version}"
+}
+
+task datagenJar(type: Jar, dependsOn: datagenClasses) {
+    archiveClassifier = 'datagen'
+    from sourceSets.datagen.output
+    manifest {
+        attributes "FMLModType": "GAMELIBRARY"
+    }
+}
+
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    archiveClassifier = 'sources'
+    from sourceSets.main.allSource
+    from sourceSets.datagen.allSource
+}
+
+artifacts {
+    archives sourcesJar
+    archives shadowJar
+    archives datagenJar
+}
+
+shadowJar {
+    archiveClassifier = ''
+    dependencies {
+    //    include(dependency('malte0811:BlockModelSplitter:.*'))
+    }
+}
+
+reobf {
+    shadowJar {}
+}
+
+//Minimize/optimize all png files, requires optipng on the PATH
+// Credits: BrainStone
+void minimizePNGFile(File file) {
+    long size = file.length()
+    exec {
+        executable "optipng"
+        args "-q", "-o7", "-zm1-9", "-strip", "all", file
+    }
+    long newSize = file.length()
+    if (newSize < size) {
+        System.out.format("Reduced File size of %s from %d bytes to %d bytes (reduced by %.2f%%)\n",
+                file, size, newSize, ((double) (size - newSize)) / ((double) size) * 100.0)
+    }
+}
+
+task optimizePng {
+    def pngPatterns = ["**/*.png"]
+    doLast {
+        //Ensure the logo is minimized (we add this file to each jar)
+        //Minimize any PNGs in the source sets
+        for (dir in sourceSets.main.resources.srcDirs) {
+            fileTree(dir: dir, includes: pngPatterns).each { minimizePNGFile(it) }
+        }
+    }
+}
+
+/*mixin {
+    add sourceSets.main, "${modid}.refmap.json"
+    config "${modid}.mixins.json"
+}*/
+
+// Running this is equivalent to running genIntellijRuns, but it exists before afterEvaluate
+task genIntellijRunsDummy {}
+
+task speedUpPreRun {
+    doLast {
+        for (String s : new String[]{"Client", "Server", "Data"}) {
+            ant.replace(
+                    file: ".idea/runConfigurations/run"+s+".xml",
+                    // prepareRunX is prepareRuns + compile, but compiling is already handled by IntelliJ
+                    token: "prepareRun"+s,
+                    value: "prepareRuns"
+            )
+        }
+    }
+}
+
+tasks.withType(Task) {
+    if (it.name == "genIntellijRuns") {
+        it.finalizedBy speedUpPreRun
+        genIntellijRunsDummy.dependsOn it
+    } else if (it.name == "runServer") {
+        it.standardInput = System.in
+    }
+}
+
+idea.project.settings.taskTriggers {
+    afterSync genIntellijRunsDummy
+}

@@ -1,0 +1,9 @@
+{
+  "diesel_generator": {
+		"category": "block",
+		"sounds": [
+			"immersiveengineering:diesel_generator"
+		],
+		"subtitle": "subtitle.immersiveengineering.dieselGenerator"
+	}
+}

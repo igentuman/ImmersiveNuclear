@@ -1,0 +1,44 @@
+# @file mods.toml
+# @spec TOML v0.5.0 (https://github.com/toml-lang/toml)
+#
+modLoader="javafml"
+loaderVersion="[25,)"
+issueTrackerURL="https://github.com/igentuman/ImmersiveNuclear/issues"
+license="Blu's License of Common Sense"
+
+[[mods]]
+modId = "immersivenuclear"
+version = "${version}"
+displayName = "Immersive Engineering"
+description = "A tech based mod focused on realism."
+authors = "igentuman"
+logoFile = "logo.png"
+credits = "BluSunrize"
+
+[[dependencies.immersivenuclear]]
+modId="forge"
+mandatory=true
+versionRange="[${forge_version},)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.immersivenuclear]]
+  modId="immersiveengineering"
+  mandatory=true
+  versionRange="[1.20.1-10.2.0-183,)"
+  ordering="AFTER"
+  side="BOTH"
+
+[[dependencies.immersivenuclear]]
+  modId="minecraft"
+  mandatory=true
+  versionRange="[${mc_version}]"
+  ordering="NONE"
+  side="BOTH"
+
+[[dependencies.immersivenuclear]]
+  modId="jei"
+  mandatory=false
+  versionRange="[${jei_version},)"
+  ordering="NONE"
+  side="BOTH"
