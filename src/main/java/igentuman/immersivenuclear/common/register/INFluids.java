@@ -56,12 +56,10 @@ public class INFluids
 	public static final List<FluidEntry> ALL_ENTRIES = new ArrayList<>();
 	public static final Set<BlockEntry<? extends LiquidBlock>> ALL_FLUID_BLOCKS = new HashSet<>();
 
-	/*public static final FluidEntry CREOSOTE = FluidEntry.make(
-			"creosote", 800, rl("block/fluid/creosote_still"), rl("block/fluid/creosote_flow")
+	public static final FluidEntry STEAM = FluidEntry.make(
+			"steam", 800, rl("block/fluid/steam_still"), rl("block/fluid/steam_flow")
 	);
-	public static final FluidEntry PLANTOIL = FluidEntry.make(
-			"plantoil", rl("block/fluid/plantoil_still"), rl("block/fluid/plantoil_flow")
-	);*/
+
 
 	public record FluidEntry(
 			RegistryObject<IEFluid> flowing,

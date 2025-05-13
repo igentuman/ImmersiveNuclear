@@ -8,7 +8,6 @@
 
 package igentuman.immersivenuclear.common.register;
 
-import blusunrize.immersiveengineering.api.wires.WireType;
 import blusunrize.immersiveengineering.common.blocks.IEBaseBlock;
 import blusunrize.immersiveengineering.common.items.IEBaseItem;
 import blusunrize.immersiveengineering.common.register.IEItems.Misc;
@@ -19,10 +18,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTab.Row;
-import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -35,15 +31,14 @@ public class INCreativeTabs
 			Registries.CREATIVE_MODE_TAB, Lib.MODID
 	);
 
-	/*private static RegistryObject<CreativeModeTab> TAB = REGISTER.register(
+	private static RegistryObject<CreativeModeTab> TAB = REGISTER.register(
 			"main",
-			// TODO what am I supposed to do with the row/col args
 			() -> new CreativeModeTab.Builder(Row.TOP, 0)
-					.icon(() -> INItems.Misc.WIRE_COILS.get(WireType.COPPER).get().getDefaultInstance())
+					.icon(() -> Misc.SHIELD.get().getDefaultInstance())
 					.title(Component.literal(ImmersiveNuclear.MODNAME))
 					.displayItems(INCreativeTabs::fillIETab)
 					.build()
-	);*/
+	);
 
 
 	private static void fillIETab(CreativeModeTab.ItemDisplayParameters parms, CreativeModeTab.Output out)

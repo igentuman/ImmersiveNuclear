@@ -1,0 +1,11 @@
+{
+  "parent": "minecraft:block/block",
+  "automatic_culling": false,
+  "flip_v": true,
+  "loader": "forge:obj",
+  "model": "immersivenuclear:models/block/connector/relay_ev.obj",
+  "render_type": "minecraft:translucent",
+  "textures": {
+    "particle": "immersivenuclear:block/connector/relay_ev"
+  }
+}

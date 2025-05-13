@@ -18,13 +18,12 @@ import blusunrize.immersiveengineering.api.multiblocks.blocks.logic.IMultiblockS
 import blusunrize.immersiveengineering.api.multiblocks.blocks.util.MBInventoryUtils;
 import blusunrize.immersiveengineering.api.multiblocks.blocks.util.ShapeType;
 import blusunrize.immersiveengineering.common.blocks.multiblocks.IEMultiblocks;
-import blusunrize.immersiveengineering.common.blocks.multiblocks.logic.FurnaceHandler;
 import blusunrize.immersiveengineering.common.blocks.multiblocks.logic.FurnaceHandler.IFurnaceEnvironment;
 import blusunrize.immersiveengineering.common.blocks.multiblocks.logic.NonMirrorableWithActiveBlock;
 import blusunrize.immersiveengineering.common.util.CachedRecipe;
 import blusunrize.immersiveengineering.common.util.inventory.SlotwiseItemHandler;
 import blusunrize.immersiveengineering.common.util.inventory.SlotwiseItemHandler.IOConstraint;
-import igentuman.immersivenuclear.common.blocks.multiblocks.logic.AlloySmelterLogic.State;
+import igentuman.immersivenuclear.common.blocks.multiblocks.logic.ElectrolyzerLogic.State;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.inventory.ContainerData;
@@ -43,7 +42,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class AlloySmelterLogic implements IMultiblockLogic<AlloySmelterLogic.State>, IServerTickableComponent<State>
+public class ElectrolyzerLogic implements IMultiblockLogic<ElectrolyzerLogic.State>, IServerTickableComponent<State>
 {
 	public static final int NUM_SLOTS = 4;
 

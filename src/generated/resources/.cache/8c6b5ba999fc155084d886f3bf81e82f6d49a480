@@ -1,0 +1,8 @@
+// 1.20.1	2025-05-13T15:52:39.782511773	Connector models/block states
+6aaf93f7102d92799c42ff5ef9a777926262b2ab assets/immersivenuclear/blockstates/connector_ev.json
+6d456be0809a96389dbc491a102845cf7d837e5d assets/immersivenuclear/blockstates/connector_ev_relay.json
+a6a2a60a08254c8b847f18992c3901a66a4a2efd assets/immersivenuclear/blockstates/transformer_ev.json
+a8c69959b9c06cfa22b27eb1171b9529cb6fe1ce assets/immersivenuclear/models/block/connector/connector_ev.json
+7394f94e3d7c05af0c31d9e71376ecc6b658f517 assets/immersivenuclear/models/block/connector/relay_ev.json
+abf99202c0aae75c64eb16138b562393da2fbca2 assets/immersivenuclear/models/block/connector/transformer_ev_left_mirrored_split.json
+46a2b098c214550f05ebceb710f3503f47a5aaa3 assets/immersivenuclear/models/block/connector/transformer_ev_left_split.json

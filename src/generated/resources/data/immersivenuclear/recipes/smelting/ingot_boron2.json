@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 1.0,
+  "ingredient": {
+    "item": "immersivenuclear:deepslate_ore_boron"
+  },
+  "result": "immersivenuclear:ingot_boron"
+}

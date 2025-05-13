@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#minecraft:is_overworld",
+  "features": "immersivenuclear:deep_thorium",
+  "step": "underground_ores"
+}

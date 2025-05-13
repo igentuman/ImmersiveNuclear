@@ -9,7 +9,6 @@
 package igentuman.immersivenuclear.data.tags;
 
 import igentuman.immersivenuclear.api.Lib;
-import igentuman.immersivenuclear.api.Lib.DamageTypes;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
@@ -36,17 +35,9 @@ public class DamageTypeTagProvider extends TagsProvider<DamageType>
 	@Override
 	protected void addTags(@NotNull Provider provider)
 	{
-		tag(DamageTypeTags.IS_FIRE)
-				.add(DamageTypes.REVOLVER_DRAGONSBREATH.playerType())
-				.add(DamageTypes.REVOLVER_DRAGONSBREATH.turretType());
-		tag(DamageTypeTags.BYPASSES_ARMOR)
-				.add(DamageTypes.RAZOR_SHOCK)
-				.add(DamageTypes.WIRE_SHOCK)
-				.add(DamageTypes.TESLA)
-				.add(DamageTypes.TESLA_PRIMARY)
-				.add(DamageTypes.REVOLVER_ARMORPIERCING.playerType())
-				.add(DamageTypes.REVOLVER_ARMORPIERCING.turretType())
-				.add(DamageTypes.RAILGUN.playerType())
-				.add(DamageTypes.SAWBLADE.playerType());
+		/*tag(DamageTypeTags.IS_FIRE)
+				.add(blusunrize.immersiveengineering.api.Lib.DamageTypes.REVOLVER_DRAGONSBREATH.playerType())
+				.add(blusunrize.immersiveengineering.api.Lib.DamageTypes.REVOLVER_DRAGONSBREATH.turretType());*/
+
 	}
 }

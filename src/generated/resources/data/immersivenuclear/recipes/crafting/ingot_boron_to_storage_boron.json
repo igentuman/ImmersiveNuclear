@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "i": {
+      "item": "immersivenuclear:ingot_boron"
+    },
+    "s": {
+      "tag": "forge:ingots/boron"
+    }
+  },
+  "pattern": [
+    "sss",
+    "sis",
+    "sss"
+  ],
+  "result": {
+    "item": "immersivenuclear:storage_boron"
+  },
+  "show_notification": true
+}

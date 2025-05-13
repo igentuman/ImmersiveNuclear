@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "i": {
+      "item": "immersivenuclear:nugget_stainless_steel"
+    },
+    "s": {
+      "tag": "forge:nuggets/stainless_steel"
+    }
+  },
+  "pattern": [
+    "sss",
+    "sis",
+    "sss"
+  ],
+  "result": {
+    "item": "immersivenuclear:ingot_stainless_steel"
+  },
+  "show_notification": true
+}

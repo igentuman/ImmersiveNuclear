@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:block/block",
+  "dynamic": false,
+  "inner_model": {
+    "parent": "minecraft:block/block",
+    "automatic_culling": false,
+    "flip_v": true,
+    "loader": "forge:obj",
+    "model": "immersivenuclear:models/block/connector/transformer_ev_left.obj",
+    "textures": {
+      "particle": "immersivenuclear:block/connector/transformer_ev"
+    }
+  },
+  "loader": "immersiveengineering:basic_split",
+  "split_parts": [
+    [
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      2,
+      0
+    ]
+  ],
+  "textures": {
+    "particle": "immersivenuclear:block/connector/transformer_ev"
+  }
+}

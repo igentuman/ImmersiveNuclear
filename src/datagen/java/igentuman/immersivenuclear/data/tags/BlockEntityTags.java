@@ -9,10 +9,10 @@
 
 package igentuman.immersivenuclear.data.tags;
 
-import blusunrize.immersiveengineering.api.Lib;
 import blusunrize.immersiveengineering.api.wires.IImmersiveConnectable;
+import blusunrize.immersiveengineering.common.blocks.IEBlockInterfaces;
 import blusunrize.immersiveengineering.mixin.accessors.BETypeAccess;
-import igentuman.immersivenuclear.common.blocks.IEBlockInterfaces.IGeneralMultiblock;
+import igentuman.immersivenuclear.api.Lib;
 import igentuman.immersivenuclear.common.config.IEServerConfig;
 import igentuman.immersivenuclear.common.register.INBlockEntities;
 import com.google.common.collect.ImmutableList;
@@ -66,7 +66,7 @@ public class BlockEntityTags extends IntrinsicHolderTagsProvider<BlockEntityType
 		for(RegistryObject<BlockEntityType<?>> type : INBlockEntities.REGISTER.getEntries())
 		{
 			BlockEntity instance = type.get().create(BlockPos.ZERO, ((BETypeAccess)type.get()).getValidBlocks().iterator().next().defaultBlockState());
-			if(instance instanceof IImmersiveConnectable||instance instanceof IGeneralMultiblock)
+			if(instance instanceof IImmersiveConnectable||instance instanceof IEBlockInterfaces.IGeneralMultiblock)
 				notMovable(type);
 		}
 	}

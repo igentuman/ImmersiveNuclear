@@ -11,10 +11,9 @@ package igentuman.immersivenuclear.common.register;
 
 import blusunrize.immersiveengineering.api.IEProperties;
 import blusunrize.immersiveengineering.common.blocks.IEBlockInterfaces.IGeneralMultiblock;
-import blusunrize.immersiveengineering.common.blocks.metal.CapacitorBlockEntity;
+import blusunrize.immersiveengineering.common.blocks.MultiblockBEType;
 import blusunrize.immersiveengineering.common.blocks.metal.EnergyConnectorBlockEntity;
 import igentuman.immersivenuclear.ImmersiveNuclear;
-import igentuman.immersivenuclear.common.blocks.MultiblockBEType;
 import igentuman.immersivenuclear.common.blocks.metal.*;
 import igentuman.immersivenuclear.common.config.IEServerConfig;
 import igentuman.immersivenuclear.common.register.INBlocks.*;
@@ -41,10 +40,10 @@ public class INBlockEntities
 			"transformerev", makeType(TransformerEVBlockEntity::new, Connectors.TRANSFORMER_EV)
 	);
 
-	/*public static final RegistryObject<BlockEntityType<CapacitorBlockEntity>> CAPACITOR_EV = REGISTER.register(
+	public static final RegistryObject<BlockEntityType<CapacitorBlockEntity>> CAPACITOR_EV = REGISTER.register(
 			"capacitorev", makeType((pos, state) -> new CapacitorBlockEntity(IEServerConfig.MACHINES.evCapConfig, pos, state), MetalDevices.CAPACITOR_EV)
 	);
-*/
+
 	static
 	{
 		EnergyConnectorBlockEntity.registerConnectorTEs(REGISTER);

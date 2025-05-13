@@ -8,37 +8,49 @@
 
 package igentuman.immersivenuclear.common.register;
 
-import blusunrize.immersiveengineering.api.EnumMetals;
-import blusunrize.immersiveengineering.api.tool.conveyor.IConveyorType;
 import blusunrize.immersiveengineering.common.blocks.BlockItemIE;
 import blusunrize.immersiveengineering.common.blocks.IEBaseBlock;
 import blusunrize.immersiveengineering.common.blocks.IEEntityBlock;
 import blusunrize.immersiveengineering.common.blocks.generic.ConnectorBlock;
-import blusunrize.immersiveengineering.common.blocks.metal.BasicConnectorBlock;
-import blusunrize.immersiveengineering.common.blocks.metal.BlockItemCapacitor;
-import blusunrize.immersiveengineering.common.blocks.metal.CapacitorBlockEntity;
-import blusunrize.immersiveengineering.common.blocks.metal.CapacitorCreativeBlockEntity;
-import blusunrize.immersiveengineering.common.register.IEBlocks.BlockEntry;
-import igentuman.immersivenuclear.api.Lib;
-import igentuman.immersivenuclear.common.blocks.metal.*;
-import igentuman.immersivenuclear.common.config.IEServerConfig;
+import blusunrize.immersiveengineering.common.blocks.generic.PostBlock;
+import blusunrize.immersiveengineering.common.blocks.generic.ScaffoldingBlock;
+import blusunrize.immersiveengineering.common.blocks.generic.WallmountBlock;
+import blusunrize.immersiveengineering.common.blocks.wooden.BarrelBlock;
 import com.mojang.datafixers.util.Pair;
-import net.minecraft.world.level.block.*;
+import igentuman.immersivenuclear.api.INEnumMetals;
+import igentuman.immersivenuclear.api.Lib;
+import igentuman.immersivenuclear.common.blocks.metal.BasicConnectorBlock;
+import igentuman.immersivenuclear.common.blocks.metal.BlockItemCapacitor;
+import igentuman.immersivenuclear.common.blocks.metal.CapacitorBlockEntity;
+import igentuman.immersivenuclear.common.blocks.metal.TransformerEVBlock;
+import igentuman.immersivenuclear.common.config.IEServerConfig;
+import net.minecraft.Util;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.FenceBlock;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
+import javax.annotation.Nonnull;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 import static igentuman.immersivenuclear.api.wires.INWireType.EV_CATEGORY;
 
-// TODO block items
+@SuppressWarnings({"unchecked", "deprecation"})
 public final class INBlocks
 {
 	public static final DeferredRegister<Block> REGISTER = DeferredRegister.create(ForgeRegistries.BLOCKS, Lib.MODID);
@@ -122,14 +134,63 @@ public final class INBlocks
 
 	public static final class Metals
 	{
-		public static final Map<EnumMetals, BlockEntry<Block>> ORES = new EnumMap<>(EnumMetals.class);
-		public static final Map<EnumMetals, BlockEntry<Block>> DEEPSLATE_ORES = new EnumMap<>(EnumMetals.class);
-		public static final Map<EnumMetals, BlockEntry<Block>> RAW_ORES = new EnumMap<>(EnumMetals.class);
-		public static final Map<EnumMetals, BlockEntry<Block>> STORAGE = new EnumMap<>(EnumMetals.class);
+		public static final Map<INEnumMetals, BlockEntry<Block>> ORES = new EnumMap<>(INEnumMetals.class);
+		public static final Map<INEnumMetals, BlockEntry<Block>> DEEPSLATE_ORES = new EnumMap<>(INEnumMetals.class);
+		public static final Map<INEnumMetals, BlockEntry<Block>> RAW_ORES = new EnumMap<>(INEnumMetals.class);
+		public static final Map<INEnumMetals, BlockEntry<Block>> STORAGE = new EnumMap<>(INEnumMetals.class);
+
 
 		private static void init()
 		{
-
+			for(INEnumMetals m : INEnumMetals.values()) {
+				String name = m.tagName();
+				BlockEntry<Block> storage;
+				BlockEntry<Block> ore = null;
+				BlockEntry<Block> deepslateOre = null;
+				BlockEntry<Block> rawOre = null;
+				if(m.shouldAddOre())
+				{
+					ore = new BlockEntry<>(BlockEntry.simple("ore_"+name,
+							() -> Block.Properties.of()
+									.mapColor(MapColor.STONE)
+									.instrument(NoteBlockInstrument.BASEDRUM)
+									.strength(3, 3)
+									.requiresCorrectToolForDrops()));
+					deepslateOre = new BlockEntry<>(BlockEntry.simple("deepslate_ore_"+name,
+							() -> Block.Properties.of()
+									.mapColor(MapColor.STONE)
+									.instrument(NoteBlockInstrument.BASEDRUM)
+									.mapColor(MapColor.DEEPSLATE)
+									.sound(SoundType.DEEPSLATE)
+									.strength(4.5f, 3)
+									.requiresCorrectToolForDrops()));
+					rawOre = new BlockEntry<>(BlockEntry.simple("raw_block_"+name,
+							() -> Block.Properties.of()
+									.mapColor(MapColor.STONE)
+									.instrument(NoteBlockInstrument.BASEDRUM)
+									.strength(5, 6)
+									.requiresCorrectToolForDrops()));
+				}
+				if(!m.isVanillaMetal())
+				{
+					BlockEntry<IEBaseBlock> storageIE = BlockEntry.simple(
+							"storage_"+name, () -> Block.Properties.of()
+									.mapColor(MapColor.METAL)
+									.sound(m==INEnumMetals.STAINLESS_STEEL?SoundType.NETHERITE_BLOCK: SoundType.METAL)
+									.strength(5, 10)
+									.requiresCorrectToolForDrops());
+					storage = new BlockEntry<>(storageIE);
+				}
+				else
+					throw new RuntimeException("Unkown vanilla metal: "+m.name());
+				STORAGE.put(m, storage);
+				if(ore!=null)
+					ORES.put(m, ore);
+				if(deepslateOre!=null)
+					DEEPSLATE_ORES.put(m, deepslateOre);
+				if(deepslateOre!=null)
+					RAW_ORES.put(m, rawOre);
+			}
 		}
 	}
 
@@ -147,9 +208,9 @@ public final class INBlocks
 	public static final class MetalDevices
 	{
 
-	/*	public static final BlockEntry<IEEntityBlock<CapacitorBlockEntity>> CAPACITOR_EV = new BlockEntry<>(
+		public static final BlockEntry<IEEntityBlock<CapacitorBlockEntity>> CAPACITOR_EV = new BlockEntry<>(
 				"capacitor_ev", DEFAULT_METAL_PROPERTIES, p -> new IEEntityBlock<>(INBlockEntities.CAPACITOR_EV, p)
-		);*/
+		);
 
 
 		private static void init()
@@ -198,13 +259,90 @@ public final class INBlocks
 		for(BlockEntry<?> entry : BlockEntry.ALL_ENTRIES)
 		{
 			Function<Block, BlockItemIE> toItem;
- 			/*if(entry==MetalDevices.CAPACITOR_EV)
+ 			if(entry==MetalDevices.CAPACITOR_EV)
 				toItem = block -> new BlockItemCapacitor(block, IEServerConfig.MACHINES.evCapConfig);
-			else*/
+			else
 				toItem = BlockItemIE::new;
 
 			Function<Block, BlockItemIE> finalToItem = toItem;
 			INItems.REGISTER.register(entry.getId().getPath(), () -> finalToItem.apply(entry.get()));
+		}
+	}
+
+
+	public static final class BlockEntry<T extends Block> implements Supplier<T>, ItemLike {
+		public static final Collection<INBlocks.BlockEntry<?>> ALL_ENTRIES = new ArrayList<>();
+		private final RegistryObject<T> regObject;
+		private final Supplier<BlockBehaviour.Properties> properties;
+
+		public static INBlocks.BlockEntry<IEBaseBlock> simple(String name, Supplier<BlockBehaviour.Properties> properties, Consumer<IEBaseBlock> extra) {
+			return new INBlocks.BlockEntry<IEBaseBlock>(name, properties, (p) -> (IEBaseBlock) Util.make(new IEBaseBlock(p), extra));
+		}
+
+		public static INBlocks.BlockEntry<IEBaseBlock> simple(String name, Supplier<BlockBehaviour.Properties> properties) {
+			return simple(name, properties, ($) -> {
+			});
+		}
+
+		public static INBlocks.BlockEntry<IEEntityBlock<?>> barrel(String name, boolean metal) {
+			return new INBlocks.BlockEntry<IEEntityBlock<?>>(name, () -> BarrelBlock.getProperties(metal), (p) -> BarrelBlock.make(p, metal));
+		}
+
+		public static INBlocks.BlockEntry<ScaffoldingBlock> scaffolding(String name, Supplier<BlockBehaviour.Properties> props) {
+			return new INBlocks.BlockEntry<ScaffoldingBlock>(name, props, ScaffoldingBlock::new);
+		}
+
+		public static INBlocks.BlockEntry<FenceBlock> fence(String name, Supplier<BlockBehaviour.Properties> props) {
+			return new INBlocks.BlockEntry<FenceBlock>(name, props, FenceBlock::new);
+		}
+
+		public static INBlocks.BlockEntry<PostBlock> post(String name, Supplier<BlockBehaviour.Properties> props) {
+			return new INBlocks.BlockEntry<PostBlock>(name, INBlocks.dynamicShape(props), PostBlock::new);
+		}
+
+		public static INBlocks.BlockEntry<WallmountBlock> wallmount(String name, Supplier<BlockBehaviour.Properties> props) {
+			return new INBlocks.BlockEntry<WallmountBlock>(name, props, WallmountBlock::new);
+		}
+
+		public BlockEntry(String name, Supplier<BlockBehaviour.Properties> properties, Function<BlockBehaviour.Properties, T> make) {
+			this.properties = properties;
+			this.regObject = (RegistryObject<T>) INBlocks.REGISTER.register(name, () -> (Block)make.apply((Properties)properties.get()));
+			ALL_ENTRIES.add(this);
+		}
+
+		public BlockEntry(T existing) {
+			this.properties = () -> Properties.copy(existing);
+			this.regObject = RegistryObject.create(BuiltInRegistries.BLOCK.getKey(existing), ForgeRegistries.BLOCKS);
+		}
+
+		public BlockEntry(INBlocks.BlockEntry<? extends T> toCopy) {
+			this.properties = toCopy.properties;
+			this.regObject = (RegistryObject<T>) toCopy.regObject;
+		}
+
+		public T get() {
+			return (T)(this.regObject.get());
+		}
+
+		public BlockState defaultBlockState() {
+			return this.get().defaultBlockState();
+		}
+
+		public ResourceLocation getId() {
+			return this.regObject.getId();
+		}
+
+		public BlockBehaviour.Properties getProperties() {
+			return (BlockBehaviour.Properties)this.properties.get();
+		}
+
+		@Nonnull
+		public Item asItem() {
+			return this.get().asItem();
+		}
+
+		public RegistryObject<? extends Block> getRegObject() {
+			return this.regObject;
 		}
 	}
 }

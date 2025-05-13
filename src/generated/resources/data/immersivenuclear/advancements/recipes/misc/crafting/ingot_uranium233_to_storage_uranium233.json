@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_ingot_uranium233": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "immersivenuclear:ingot_uranium233"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "immersivenuclear:crafting/ingot_uranium233_to_storage_uranium233"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_ingot_uranium233",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "immersivenuclear:crafting/ingot_uranium233_to_storage_uranium233"
+    ]
+  },
+  "sends_telemetry_event": false
+}

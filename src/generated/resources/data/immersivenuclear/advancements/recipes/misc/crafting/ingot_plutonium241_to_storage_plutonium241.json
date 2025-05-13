@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_ingot_plutonium241": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "immersivenuclear:ingot_plutonium241"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "immersivenuclear:crafting/ingot_plutonium241_to_storage_plutonium241"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_ingot_plutonium241",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "immersivenuclear:crafting/ingot_plutonium241_to_storage_plutonium241"
+    ]
+  },
+  "sends_telemetry_event": false
+}

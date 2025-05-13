@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_deepslate_ore_thorium": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "immersivenuclear:deepslate_ore_thorium"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "immersivenuclear:smelting/ingot_thorium2"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_deepslate_ore_thorium",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "immersivenuclear:smelting/ingot_thorium2"
+    ]
+  },
+  "sends_telemetry_event": false
+}

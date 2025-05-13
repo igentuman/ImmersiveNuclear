@@ -10,18 +10,13 @@ package igentuman.immersivenuclear.data.loot;
 
 import blusunrize.immersiveengineering.api.EnumMetals;
 import blusunrize.immersiveengineering.api.multiblocks.blocks.MultiblockRegistration;
+import blusunrize.immersiveengineering.common.register.IEBlocks;
 import blusunrize.immersiveengineering.common.util.loot.*;
-import igentuman.immersivenuclear.common.blocks.IEEntityBlock;
-import igentuman.immersivenuclear.common.blocks.metal.CapacitorBlockEntity;
-import igentuman.immersivenuclear.common.blocks.metal.ConveyorBlock;
-import igentuman.immersivenuclear.common.blocks.plant.HempBlock;
-import igentuman.immersivenuclear.common.blocks.wooden.SawdustBlock;
+import blusunrize.immersiveengineering.data.loot.LootUtils;
 import igentuman.immersivenuclear.common.register.INBlocks;
 import igentuman.immersivenuclear.common.register.INBlocks.*;
 import igentuman.immersivenuclear.common.register.INItems;
-import igentuman.immersivenuclear.common.register.INItems.Ingredients;
 import igentuman.immersivenuclear.common.register.INItems.ItemRegObject;
-import igentuman.immersivenuclear.common.register.INItems.Misc;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.advancements.critereon.EnchantmentPredicate;
 import net.minecraft.advancements.critereon.ItemPredicate;
@@ -77,18 +72,7 @@ public class BlockLoot implements LootTableSubProvider
 	public void generate(BiConsumer<ResourceLocation, Builder> out)
 	{
 		this.out = out;
-		registerHemp();
-		register(StoneDecoration.CONCRETE_SPRAYED, LootTable.lootTable());
-		register(WoodenDevices.WINDMILL, LootTable.lootTable().withPool(
-				createPoolBuilder().add(
-						LootItem.lootTableItem(WoodenDevices.WINDMILL)
-								.apply(WindmillLootFunction.builder())
-				)));
-
-		LootPoolEntryContainer.Builder<?> tileOrInv = AlternativesEntry.alternatives(
-				BEDropLootEntry.builder().when(ExplosionCondition.survivesExplosion()),
-				DropInventoryLootEntry.builder()
-		);
+		/*
 		register(WoodenDevices.CRATE, LootPool.lootPool().add(tileOrInv));
 		register(WoodenDevices.REINFORCED_CRATE, tileDrop());
 		register(WoodenDevices.SORTER, tileDrop());
@@ -127,7 +111,7 @@ public class BlockLoot implements LootTableSubProvider
 		for(EnumMetals metal : EnumMetals.values())
 			if(metal.shouldAddOre())
 				registerOre(metal);
-
+*/
 		registerAllRemainingAsDefault();
 	}
 
@@ -137,24 +121,12 @@ public class BlockLoot implements LootTableSubProvider
 		//registerMultiblock(IEMultiblockLogic.MIXER);
 	}
 
-	private void registerSlabs()
-	{
-		for(BlockEntry<SlabBlock> slab : INBlocks.TO_SLAB.values())
-		{
-			LootItemConditionalFunction.Builder<?> doubleSlabFunction = SetItemCountFunction.setCount(ConstantValue.exactly(2))
-					.when(propertyIs(slab, SlabBlock.TYPE, SlabType.DOUBLE));
-			LootTable.Builder lootBuilder = LootTable.lootTable().withPool(
-					singleItem(slab).apply(doubleSlabFunction)
-			);
-			register(slab, lootBuilder);
-		}
-	}
 
 	private void registerAllRemainingAsDefault()
 	{
-		for(BlockEntry<?> b : BlockEntry.ALL_ENTRIES)
+		/*for(IEBlocks.BlockEntry<?> b : IEBlocks.BlockEntry.ALL_ENTRIES)
 			if(!generatedTables.contains(toTableLoc(b.getId())))
-				registerSelfDropping(b);
+				registerSelfDropping(b);*/
 	}
 
 	private void registerMultiblock(MultiblockRegistration<?> registration)
@@ -230,35 +202,15 @@ public class BlockLoot implements LootTableSubProvider
 		return LootPool.lootPool().when(ExplosionCondition.survivesExplosion());
 	}
 
-	private void registerHemp()
-	{
-		LootTable.Builder ret = LootTable.lootTable()
-				.withPool(singleItem(Misc.HEMP_SEEDS));
-		ret.withPool(
-				binBonusLootPool(Ingredients.HEMP_FIBER, Enchantments.BLOCK_FORTUNE, 4/8f, 3).when(
-						LootItemBlockStatePropertyCondition.hasBlockStateProperties(INBlocks.Misc.HEMP_PLANT.get())
-								.setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(HempBlock.AGE, 4))
-				)
-		);
-		ret.withPool(
-				binBonusLootPool(Ingredients.HEMP_FIBER, Enchantments.BLOCK_FORTUNE, 5/8f, 3).when(
-						LootItemBlockStatePropertyCondition.hasBlockStateProperties(INBlocks.Misc.HEMP_PLANT.get())
-								.setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(HempBlock.TOP, true))
-				)
-		);
-		register(INBlocks.Misc.HEMP_PLANT, ret);
-	}
-
-
 	private void registerOre(EnumMetals metal)
 	{
-		registerOre(metal, INBlocks.Metals.ORES.get(metal));
-		registerOre(metal, INBlocks.Metals.DEEPSLATE_ORES.get(metal));
+		/*registerOre(metal, INBlocks.Metals.ORES.get(metal));
+		registerOre(metal, INBlocks.Metals.DEEPSLATE_ORES.get(metal));*/
 	}
 
-	private void registerOre(EnumMetals metal, BlockEntry<?> oreBlock)
+	private void registerOre(EnumMetals metal, IEBlocks.BlockEntry<?> oreBlock)
 	{
-		ItemRegObject<Item> rawOre = INItems.Metals.RAW_ORES.get(metal);
+		/*ItemRegObject<Item> rawOre = INItems.Metals.RAW_ORES.get(metal);
 		LootTable.Builder ret = LootTable.lootTable().withPool(LootPool.lootPool()
 				.setRolls(ConstantValue.exactly(1.0F))
 				.add(LootItem.lootTableItem(oreBlock)
@@ -271,15 +223,7 @@ public class BlockLoot implements LootTableSubProvider
 						)
 				)
 		);
-		register(oreBlock, ret);
-	}
-
-	private void registerSawdust()
-	{
-		LootTable.Builder ret = LootTable.lootTable()
-				.withPool(singleItem(WoodenDecoration.SAWDUST))
-				.apply(new PropertyCountLootFunction.Builder(SawdustBlock.LAYERS.getName()));
-		register(WoodenDecoration.SAWDUST, ret);
+		register(oreBlock, ret);*/
 	}
 
 	private LootPool.Builder binBonusLootPool(ItemLike item, Enchantment ench, float prob, int extra)

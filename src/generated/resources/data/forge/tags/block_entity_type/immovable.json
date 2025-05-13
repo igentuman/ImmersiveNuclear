@@ -1,0 +1,11 @@
+{
+  "values": [
+    "immersivenuclear:transformerev",
+    "immersivenuclear:lv_conn",
+    "immersivenuclear:lv_relay",
+    "immersivenuclear:mv_conn",
+    "immersivenuclear:mv_relay",
+    "immersivenuclear:hv_conn",
+    "immersivenuclear:hv_relay"
+  ]
+}

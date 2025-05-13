@@ -25,7 +25,7 @@ side="BOTH"
 [[dependencies.immersivenuclear]]
   modId="immersiveengineering"
   mandatory=true
-  versionRange="[1.20.1-10.2.0-183,)"
+  versionRange="[1.20.1-10.2.0-182,)"
   ordering="AFTER"
   side="BOTH"
 

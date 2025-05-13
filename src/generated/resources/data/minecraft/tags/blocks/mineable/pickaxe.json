@@ -1,0 +1,20 @@
+{
+  "values": [
+    "immersivenuclear:deepslate_ore_boron",
+    "immersivenuclear:ore_boron",
+    "immersivenuclear:raw_block_boron",
+    "immersivenuclear:deepslate_ore_thorium",
+    "immersivenuclear:ore_thorium",
+    "immersivenuclear:raw_block_thorium",
+    "immersivenuclear:storage_boron",
+    "immersivenuclear:storage_zirconium",
+    "immersivenuclear:storage_thorium",
+    "immersivenuclear:storage_uranium233",
+    "immersivenuclear:storage_uranium235",
+    "immersivenuclear:storage_uranium238",
+    "immersivenuclear:storage_plutonium239",
+    "immersivenuclear:storage_plutonium240",
+    "immersivenuclear:storage_plutonium241",
+    "immersivenuclear:storage_stainless_steel"
+  ]
+}

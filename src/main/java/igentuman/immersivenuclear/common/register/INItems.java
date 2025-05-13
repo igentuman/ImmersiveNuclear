@@ -9,6 +9,7 @@
 package igentuman.immersivenuclear.common.register;
 
 import blusunrize.immersiveengineering.common.items.IEBaseItem;
+import igentuman.immersivenuclear.api.INEnumMetals;
 import igentuman.immersivenuclear.api.Lib;
 import net.minecraft.Util;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -22,6 +23,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 import javax.annotation.Nonnull;
+import java.util.EnumMap;
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -38,7 +41,52 @@ public final class INItems
 	public static void init()
 	{
 		REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
-		// Load all classes to make sure the static variables are initialized
+		Metals.init();
+	}
+
+	public static final class Metals {
+		public static final Map<INEnumMetals, INItems.ItemRegObject<Item>> INGOTS = new EnumMap(INEnumMetals.class);
+		public static final Map<INEnumMetals, INItems.ItemRegObject<Item>> NUGGETS = new EnumMap(INEnumMetals.class);
+		public static final Map<INEnumMetals, INItems.ItemRegObject<Item>> RAW_ORES = new EnumMap(INEnumMetals.class);
+		public static final Map<INEnumMetals, INItems.ItemRegObject<IEBaseItem>> DUSTS = new EnumMap(INEnumMetals.class);
+		public static final Map<INEnumMetals, INItems.ItemRegObject<IEBaseItem>> PLATES = new EnumMap(INEnumMetals.class);
+
+		public Metals() {
+		}
+
+		private static void init() {
+			for(INEnumMetals m : INEnumMetals.values()) {
+				String name = m.tagName();
+				INItems.ItemRegObject<Item> rawOre = null;
+				INItems.ItemRegObject<Item> ingot = null;
+				INItems.ItemRegObject<Item> nugget = null;
+				if (!m.isVanillaMetal()) {
+					ingot = INItems.<Item>register("ingot_" + name, IEBaseItem::new);
+				}
+				if (m.shouldAddNugget()) {
+					nugget = INItems.<Item>register("nugget_" + name, IEBaseItem::new);
+				}
+
+				if (m.shouldAddOre()) {
+					rawOre = INItems.<Item>register("raw_" + name, IEBaseItem::new);
+				}
+
+				if(nugget != null) {
+					NUGGETS.put(m, nugget);
+				}
+				if(ingot != null) {
+					INGOTS.put(m, ingot);
+				}
+				if (rawOre != null) {
+					RAW_ORES.put(m, rawOre);
+				}
+				if(!m.isIsotope()) {
+					PLATES.put(m, INItems.simple("plate_" + name));
+					DUSTS.put(m, INItems.simple("dust_" + name));
+				}
+			}
+
+		}
 	}
 
 	private static <T> Consumer<T> nothing()

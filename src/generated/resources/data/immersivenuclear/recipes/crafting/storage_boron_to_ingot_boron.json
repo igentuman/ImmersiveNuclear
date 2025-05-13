@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "immersivenuclear:storage_boron"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "item": "immersivenuclear:ingot_boron"
+  }
+}

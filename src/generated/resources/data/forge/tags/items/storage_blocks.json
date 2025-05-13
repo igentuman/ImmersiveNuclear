@@ -1,0 +1,16 @@
+{
+  "values": [
+    "#forge:storage_blocks/zirconium",
+    "#forge:storage_blocks/thorium",
+    "#forge:storage_blocks/raw_thorium",
+    "#forge:storage_blocks/boron",
+    "#forge:storage_blocks/raw_boron",
+    "#forge:storage_blocks/uranium238",
+    "#forge:storage_blocks/uranium235",
+    "#forge:storage_blocks/uranium233",
+    "#forge:storage_blocks/plutonium239",
+    "#forge:storage_blocks/plutonium240",
+    "#forge:storage_blocks/plutonium241",
+    "#forge:storage_blocks/stainless_steel"
+  ]
+}

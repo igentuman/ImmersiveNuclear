@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "i": {
+      "item": "immersivenuclear:ingot_plutonium240"
+    },
+    "s": {
+      "tag": "forge:ingots/plutonium240"
+    }
+  },
+  "pattern": [
+    "sss",
+    "sis",
+    "sss"
+  ],
+  "result": {
+    "item": "immersivenuclear:storage_plutonium240"
+  },
+  "show_notification": true
+}

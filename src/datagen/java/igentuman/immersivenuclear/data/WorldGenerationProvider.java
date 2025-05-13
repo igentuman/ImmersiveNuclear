@@ -8,14 +8,15 @@
 
 package igentuman.immersivenuclear.data;
 
-import blusunrize.immersiveengineering.api.EnumMetals;
-import blusunrize.immersiveengineering.common.world.IECountPlacement;
-import blusunrize.immersiveengineering.common.world.IEHeightProvider;
-import blusunrize.immersiveengineering.common.world.IEOreFeature.IEOreFeatureConfig;
+import blusunrize.immersiveengineering.ImmersiveEngineering;
 import igentuman.immersivenuclear.ImmersiveNuclear;
+import igentuman.immersivenuclear.api.INEnumMetals;
 import igentuman.immersivenuclear.api.Lib;
 import igentuman.immersivenuclear.common.config.IEServerConfig.Ores.VeinType;
 import igentuman.immersivenuclear.common.register.INBlocks.Metals;
+import igentuman.immersivenuclear.common.world.IECountPlacement;
+import igentuman.immersivenuclear.common.world.IEHeightProvider;
+import igentuman.immersivenuclear.common.world.IEOreFeature;
 import igentuman.immersivenuclear.common.world.IEWorldGen;
 import igentuman.immersivenuclear.data.tags.DamageTypeTagProvider;
 import com.google.common.collect.ImmutableList;
@@ -60,6 +61,8 @@ import java.util.Map.Entry;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
+import static blusunrize.immersiveengineering.common.world.IEWorldGen.MINERAL_VEIN_FEATURE;
+
 public class WorldGenerationProvider
 {
 	public static List<DataProvider> makeProviders(
@@ -74,7 +77,7 @@ public class WorldGenerationProvider
 		}
 		final Registrations registrations = new Registrations(
 				oreFeatures,
-				new FeatureRegistration(ImmersiveNuclear.rl("mineral_veins"), null)
+				new FeatureRegistration(ImmersiveEngineering.rl("mineral_veins"), null)
 		);
 		final RegistrySetBuilder registryBuilder = new RegistrySetBuilder();
 		registryBuilder.add(Registries.CONFIGURED_FEATURE, ctx -> bootstrapConfiguredFeatures(ctx, registrations));
@@ -96,16 +99,18 @@ public class WorldGenerationProvider
 		for(final Entry<VeinType, FeatureRegistration> entry : registrations.oreFeatures.entrySet())
 		{
 			final VeinType type = entry.getKey();
-			final EnumMetals metal = entry.getKey().metal;
+			final INEnumMetals metal = entry.getKey().metal;
 			List<TargetBlockState> targetList = ImmutableList.of(
 					OreConfiguration.target(replaceStone, Metals.ORES.get(metal).defaultBlockState()),
 					OreConfiguration.target(replaceDeepslate, Metals.DEEPSLATE_ORES.get(metal).defaultBlockState())
 			);
 			entry.getValue().registerConfigured(
-					ctx, new ConfiguredFeature<>(IEWorldGen.IE_CONFIG_ORE.get(), new IEOreFeatureConfig(targetList, type))
+					ctx, new ConfiguredFeature<>(IEWorldGen.IE_CONFIG_ORE.get(), new IEOreFeature.IEOreFeatureConfig(targetList, type))
 			);
 		}
-
+		registrations.mineralVeins.registerConfigured(
+				ctx, new ConfiguredFeature<>(MINERAL_VEIN_FEATURE.get(), new NoneFeatureConfiguration())
+		);
 	}
 
 	private static void bootstrapPlacedFeatures(BootstapContext<PlacedFeature> ctx, Registrations registrations)

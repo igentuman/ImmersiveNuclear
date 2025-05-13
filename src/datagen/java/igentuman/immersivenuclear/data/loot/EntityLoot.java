@@ -8,7 +8,7 @@
 
 package igentuman.immersivenuclear.data.loot;
 
-import igentuman.immersivenuclear.common.register.INItems.Ingredients;
+import blusunrize.immersiveengineering.common.register.IEItems;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
@@ -38,7 +38,7 @@ public class EntityLoot implements LootTableSubProvider
 				.add(createEntry(Items.EMERALD)
 						.apply(SetItemCountFunction.setCount(UniformGenerator.between(0, 1)))
 						.apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0, 1)))
-				).add(createEntry(Ingredients.STICK_STEEL)
+				).add(createEntry(IEItems.Ingredients.STICK_STEEL)
 						.apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 4)))
 				));
 		out.accept(rl("entities/fusilier"), builder);

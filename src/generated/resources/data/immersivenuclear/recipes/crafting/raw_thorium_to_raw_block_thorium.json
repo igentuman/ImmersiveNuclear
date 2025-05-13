@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "i": {
+      "item": "immersivenuclear:raw_thorium"
+    },
+    "s": {
+      "tag": "forge:raw_materials/thorium"
+    }
+  },
+  "pattern": [
+    "sss",
+    "sis",
+    "sss"
+  ],
+  "result": {
+    "item": "immersivenuclear:raw_block_thorium"
+  },
+  "show_notification": true
+}

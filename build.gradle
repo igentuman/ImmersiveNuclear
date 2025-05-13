@@ -153,6 +153,7 @@ minecraft {
 }
 
 repositories {
+    maven { url "https://modmaven.dev/" }
     maven { // JEI & BlockModelSplitter
         name 'Jared maven'
         url 'https://maven.blamejared.com/'
@@ -177,18 +178,22 @@ dependencies {
 //    minecraft "net.neoforged:forge:${version_minecraft}-${version_forge}"
     minecraft "net.minecraftforge:forge:${version_minecraft}-${version_forge}"
 
-    implementation fg.deobf("curse.maven:immersive-engineering-231951:6206989")
+    implementation fg.deobf("blusunrize.immersiveengineering:ImmersiveEngineering:${ie_version}")
+    compileOnly fg.deobf("blusunrize.immersiveengineering:ImmersiveEngineering:${ie_version}:datagen")
+    compileOnly fg.deobf("blusunrize.immersiveengineering:ImmersiveEngineering:${ie_version}:api")
     compileOnly fg.deobf("mezz.jei:jei-1.20.1-forge-api:${version_jei}")
     compileOnly fg.deobf("mezz.jei:jei-1.20.1-common-api:${version_jei}")
+    implementation fg.deobf("mezz.jei:jei-${version_minecraft}-forge:${version_jei}")
     compileOnly fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-1.20.1:14.0.34")
-    //TODO only API. For some reason IPeripheral (an API class) does not show up in the API artifact
-    // compileOnly fg.deobf("cc.tweaked:cc-tweaked-1.19.3-forge-api:${version_cctweaked}")
-    compileOnly fg.deobf("cc.tweaked:cc-tweaked-1.20.1-forge:${version_cctweaked}")
-    compileOnly fg.deobf("curse.maven:the-one-probe-245211:3825695")
+    implementation fg.deobf("cc.tweaked:cc-tweaked-1.20.1-forge:${version_cctweaked}")
+    implementation fg.deobf("curse.maven:the-one-probe-245211:3825695")
     compileOnly fg.deobf("curse.maven:curios-309927:4780213")
     compileOnly fg.deobf("curse.maven:jade-324717:4801177")
     compileOnly fg.deobf("curse.maven:opencomputers2-437654:3630307")
-
+    runtimeOnly fg.deobf("mcjty.theoneprobe:theoneprobe:${top_version}") {
+        transitive = false
+    }
+    implementation fg.deobf("mekanism:Mekanism:${version_minecraft}-${mekanism_version}")
     //implementation "malte0811:BlockModelSplitter:2.0.1"
     testImplementation('junit:junit:4.13.2')
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'

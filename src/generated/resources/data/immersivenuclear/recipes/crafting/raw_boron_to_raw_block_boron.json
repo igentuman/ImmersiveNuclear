@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "i": {
+      "item": "immersivenuclear:raw_boron"
+    },
+    "s": {
+      "tag": "forge:raw_materials/boron"
+    }
+  },
+  "pattern": [
+    "sss",
+    "sis",
+    "sss"
+  ],
+  "result": {
+    "item": "immersivenuclear:raw_block_boron"
+  },
+  "show_notification": true
+}

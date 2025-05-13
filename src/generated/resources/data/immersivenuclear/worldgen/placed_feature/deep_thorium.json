@@ -1,0 +1,19 @@
+{
+  "feature": "immersivenuclear:deep_thorium",
+  "placement": [
+    {
+      "type": "minecraft:height_range",
+      "height": {
+        "type": "immersivenuclear:ie_range",
+        "value": 2
+      }
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "type": "immersivenuclear:ie_count",
+      "value": 2
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_dust_thorium": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "immersivenuclear:dust_thorium"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "immersivenuclear:smelting/ingot_thorium_from_dust_from_blasting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_dust_thorium",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "immersivenuclear:smelting/ingot_thorium_from_dust_from_blasting"
+    ]
+  },
+  "sends_telemetry_event": false
+}

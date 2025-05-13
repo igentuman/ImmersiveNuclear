@@ -8,7 +8,7 @@
 
 package igentuman.immersivenuclear.data;
 
-import blusunrize.immersiveengineering.api.IETags;
+import igentuman.immersivenuclear.api.INTags;
 import igentuman.immersivenuclear.api.Lib;
 import igentuman.immersivenuclear.common.register.INFluids;
 import net.minecraft.core.HolderLookup.Provider;
@@ -28,10 +28,7 @@ class FluidTags extends FluidTagsProvider
 	@Override
 	protected void addTags(Provider p_256366_)
 	{
-		tag(IETags.fluidCreosote).add(INFluids.CREOSOTE.getStill());
-		tag(IETags.fluidPlantoil).add(INFluids.PLANTOIL.getStill());
-
-		tag(IETags.drillFuel).addTag(IETags.fluidBiodiesel);
+		tag(INTags.fluidSteam).add(INFluids.STEAM.getStill());
 		//tag(Fluids.GASEOUS).add(INFluids.ACETALDEHYDE.getStill());
 	}
 }

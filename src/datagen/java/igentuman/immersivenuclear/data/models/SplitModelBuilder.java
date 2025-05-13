@@ -1,15 +1,6 @@
-/*
- * BluSunrize
- * Copyright (c) 2023
- *
- * This code is licensed under "Blu's License of Common Sense"
- * Details can be found in the license file in the root folder of this project
- */
-
 package igentuman.immersivenuclear.data.models;
 
-import igentuman.immersivenuclear.client.models.split.SplitModelLoader;
-import igentuman.immersivenuclear.data.models.NongeneratedModels.NongeneratedModel;
+import blusunrize.immersiveengineering.client.models.split.SplitModelLoader;
 import com.google.common.base.Preconditions;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -33,7 +24,7 @@ public class SplitModelBuilder<T extends ModelBuilder<T>> extends CustomLoaderBu
 	}
 
 	private List<Vec3i> parts;
-	private NongeneratedModel modelToSplit;
+	private NongeneratedModels.NongeneratedModel modelToSplit;
 	private boolean isDynamic;
 
 	public SplitModelBuilder<T> parts(List<Vec3i> parts)
@@ -44,7 +35,7 @@ public class SplitModelBuilder<T extends ModelBuilder<T>> extends CustomLoaderBu
 		return this;
 	}
 
-	public SplitModelBuilder<T> innerModel(NongeneratedModel modelToSplit)
+	public SplitModelBuilder<T> innerModel(NongeneratedModels.NongeneratedModel modelToSplit)
 	{
 		Preconditions.checkNotNull(modelToSplit);
 		Preconditions.checkState(this.modelToSplit==null);

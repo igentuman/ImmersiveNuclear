@@ -9,13 +9,13 @@
 
 package igentuman.immersivenuclear.common.config;
 
-import blusunrize.immersiveengineering.api.EnumMetals;
 import blusunrize.immersiveengineering.api.crafting.MultiblockRecipe;
-import blusunrize.immersiveengineering.common.blocks.metal.CapacitorBlockEntity;
 import com.electronwill.nightconfig.core.Config;
 import com.google.common.base.Preconditions;
 import com.mojang.serialization.Codec;
 import igentuman.immersivenuclear.ImmersiveNuclear;
+import igentuman.immersivenuclear.api.INEnumMetals;
+import igentuman.immersivenuclear.common.blocks.metal.CapacitorBlockEntity;
 import igentuman.immersivenuclear.common.register.INBlockEntities;
 import igentuman.immersivenuclear.common.wires.INWireTypes.IEWireType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -118,7 +118,7 @@ public class IEServerConfig
 			builder.push("machines");
 			{
 				builder.push("capacitors");
-				//evCapConfig = new CapacitorConfig(builder, () -> INBlockEntities.CAPACITOR_EV.get(), "extreme", 16000000, 16384, 16384);
+				evCapConfig = new CapacitorConfig(builder, () -> INBlockEntities.CAPACITOR_EV.get(), "extreme", 16000000, 16384, 16384);
 				builder.pop();
 			}
 
@@ -177,6 +177,7 @@ public class IEServerConfig
 				this.output = () -> output;
 				this.tileType = type;
 			}
+
 		}
 
 		//Multiblock Recipes
@@ -270,17 +271,14 @@ public class IEServerConfig
 		public enum VeinType
 		{
 
-			BAUXITE(EnumMetals.ALUMINUM, OreDistribution.TRAPEZOID, 0, 6, 32, 112, 16),
-			LEAD(EnumMetals.LEAD, OreDistribution.TRAPEZOID, 0, 8, -32, 80, 12),
-			SILVER(EnumMetals.SILVER, OreDistribution.TRAPEZOID, 0.25, 9, -48, 32, 10),
-			NICKEL(EnumMetals.NICKEL, OreDistribution.UNIFORM, 0, 5, -64, 24, 7),
-			DEEP_NICKEL(EnumMetals.NICKEL, OreDistribution.TRAPEZOID, 0, 6, -120, -8, 11),
-			URANIUM(EnumMetals.URANIUM, OreDistribution.TRAPEZOID, 0.5, 4, -64, -16, 9),
+			THORIUM(INEnumMetals.THORIUM, OreDistribution.TRAPEZOID, 0, 6, 32, 112, 16),
+			BORON(INEnumMetals.BORON, OreDistribution.TRAPEZOID, 0, 8, -32, 80, 12),
+			DEEP_THORIUM(INEnumMetals.THORIUM, OreDistribution.TRAPEZOID, 0, 6, -120, -8, 11),
 			;
 			public static final VeinType[] VALUES = values();
 			public static final Codec<VeinType> CODEC = Codec.INT.xmap(i -> VALUES[i], VeinType::ordinal);
 
-			public final EnumMetals metal;
+			public final INEnumMetals metal;
 			private final OreDistribution defaultDistribution;
 			private final double defaultAirExposure;
 			private final int defaultVeinSize;
@@ -288,7 +286,7 @@ public class IEServerConfig
 			private final int defaultMaxY;
 			private final int defaultVeinsPerChunk;
 
-			VeinType(EnumMetals metal, OreDistribution defaultDistribution, double defaultAirExposure, int defaultVeinSize, int defaultMinY, int defaultMaxY, int defaultVeinsPerChunk)
+			VeinType(INEnumMetals metal, OreDistribution defaultDistribution, double defaultAirExposure, int defaultVeinSize, int defaultMinY, int defaultMaxY, int defaultVeinsPerChunk)
 			{
 				this.metal = metal;
 				this.defaultDistribution = defaultDistribution;

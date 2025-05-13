@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "i": {
+      "item": "immersivenuclear:ingot_zirconium"
+    },
+    "s": {
+      "tag": "forge:ingots/zirconium"
+    }
+  },
+  "pattern": [
+    "sss",
+    "sis",
+    "sss"
+  ],
+  "result": {
+    "item": "immersivenuclear:storage_zirconium"
+  },
+  "show_notification": true
+}

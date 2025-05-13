@@ -10,15 +10,9 @@ package igentuman.immersivenuclear.data.blockstates;
 
 import blusunrize.immersiveengineering.api.IEProperties;
 import blusunrize.immersiveengineering.api.multiblocks.TemplateMultiblock;
-import blusunrize.immersiveengineering.common.blocks.multiblocks.IEMultiblocks;
 import blusunrize.immersiveengineering.common.blocks.multiblocks.IETemplateMultiblock;
-import igentuman.immersivenuclear.common.blocks.wooden.ModWorkbenchBlockEntity;
-import igentuman.immersivenuclear.common.register.INBlocks.MetalDevices;
-import igentuman.immersivenuclear.common.register.INBlocks.WoodenDevices;
-import igentuman.immersivenuclear.data.models.NongeneratedModels.NongeneratedModel;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
+import igentuman.immersivenuclear.data.models.NongeneratedModels;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
@@ -48,12 +42,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
-import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static igentuman.immersivenuclear.ImmersiveNuclear.rl;
-import static net.minecraft.client.renderer.RenderType.*;
 
 public class MultiblockStates extends ExtendedBlockstateProvider
 {
@@ -80,10 +69,9 @@ public class MultiblockStates extends ExtendedBlockstateProvider
 	@Override
 	protected void registerStatesAndModels()
 	{
-		createStoneMultiblocks();
 		createMetalMultiblocks();
 
-		createMultiblock(
+		/*createMultiblock(
 				MetalDevices.TESLA_COIL,
 				split(
 						innerObj("block/metal_device/teslacoil.obj"),
@@ -94,44 +82,12 @@ public class MultiblockStates extends ExtendedBlockstateProvider
 		createMultiblock(
 				MetalDevices.BLAST_FURNACE_PREHEATER,
 				split(innerObj("block/metal_device/blastfurnace_preheater.obj"), COLUMN_THREE)
-		);
-	}
-
-	private void createStoneMultiblocks()
-	{
-		blastFurnaceOff = cubeThree("blast_furnace_off",
-				modLoc("block/multiblocks/blast_furnace"),
-				modLoc("block/multiblocks/blast_furnace_off")
-		);
-		blastFurnaceOn = cubeThree("blast_furnace_on",
-				modLoc("block/multiblocks/blast_furnace"),
-				modLoc("block/multiblocks/blast_furnace_on")
-		);
-		cokeOvenOff = cubeThree("coke_oven_off",
-				modLoc("block/multiblocks/coke_oven"),
-				modLoc("block/multiblocks/coke_oven_off")
-		);
-		cokeOvenOn = cubeThree("coke_oven_on",
-				modLoc("block/multiblocks/coke_oven"),
-				modLoc("block/multiblocks/coke_oven_on")
-		);
-		alloySmelterOff = cubeTwo("alloy_smelter_off",
-				modLoc("block/multiblocks/alloy_smelter_top"),
-				modLoc("block/multiblocks/alloy_smelter_bottom"),
-				modLoc("block/multiblocks/alloy_smelter_side"),
-				modLoc("block/multiblocks/alloy_smelter_off")
-		);
-		alloySmelterOn = cubeTwo("alloy_smelter_on",
-				modLoc("block/multiblocks/alloy_smelter_top"),
-				modLoc("block/multiblocks/alloy_smelter_bottom"),
-				modLoc("block/multiblocks/alloy_smelter_side"),
-				modLoc("block/multiblocks/alloy_smelter_on")
-		);
+		);*/
 	}
 
 	private void createMetalMultiblocks()
 	{
-		createMultiblock(innerObj("block/metal_multiblock/sawmill.obj"), IEMultiblocks.SAWMILL);
+		/*createMultiblock(innerObj("block/metal_multiblock/sawmill.obj"), IEMultiblocks.SAWMILL);
 		createMultiblock(innerObj("block/metal_multiblock/excavator.obj"), IEMultiblocks.EXCAVATOR);
 		createMultiblock(innerObj("block/metal_multiblock/crusher.obj"), IEMultiblocks.CRUSHER);
 		createMultiblock(innerObj("block/metal_multiblock/metal_press.obj"), IEMultiblocks.METAL_PRESS);
@@ -146,9 +102,9 @@ public class MultiblockStates extends ExtendedBlockstateProvider
 		createMultiblock(innerObj("block/metal_multiblock/squeezer.obj"), IEMultiblocks.SQUEEZER);
 		createMultiblock(innerObj("block/metal_multiblock/mixer.obj"), IEMultiblocks.MIXER);
 		createMultiblock(innerObj("block/metal_multiblock/refinery.obj"), IEMultiblocks.REFINERY);
-		createMultiblock(innerObj("block/metal_multiblock/diesel_generator.obj", cutoutMipped()), IEMultiblocks.DIESEL_GENERATOR);
+		createMultiblock(innerObj("block/metal_multiblock/diesel_generator.obj", cutoutMipped()), IEMultiblocks.DIESEL_GENERATOR);*/
 
-		createMultiblock(WoodenDevices.CIRCUIT_TABLE,
+		/*createMultiblock(WoodenDevices.CIRCUIT_TABLE,
 				split(innerObj("block/wooden_device/circuit_table.obj"), ImmutableList.of(
 						ModWorkbenchBlockEntity.MASTER_POS, ModWorkbenchBlockEntity.DUMMY_POS
 				)),
@@ -158,8 +114,8 @@ public class MultiblockStates extends ExtendedBlockstateProvider
 						innerObj("block/metal_device/core_drill.obj", cutout()),
 						ImmutableList.of(BlockPos.ZERO, BlockPos.ZERO.above(), BlockPos.ZERO.above(2))
 				),
-				null, null);
-		createMultiblock(innerObj("block/metal_multiblock/auto_workbench.obj"), IEMultiblocks.AUTO_WORKBENCH);
+				null, null);*/
+		/*createMultiblock(innerObj("block/metal_multiblock/auto_workbench.obj"), IEMultiblocks.AUTO_WORKBENCH);*/
 	}
 
 	@Nonnull
@@ -169,41 +125,20 @@ public class MultiblockStates extends ExtendedBlockstateProvider
 		return "Multiblock models/block states";
 	}
 
-	private ModelFile cubeTwo(String name, ResourceLocation top, ResourceLocation bottom,
-							  ResourceLocation side, ResourceLocation front)
-	{
-		NongeneratedModel baseModel = obj(name, rl("block/stone_multiblocks/cube_two.obj"),
-				ImmutableMap.<String, ResourceLocation>builder()
-						.put("side", side)
-						.put("top", top)
-						.put("bottom", bottom)
-						.put("front", front)
-						.build(),
-				innerModels
-		);
-		return splitModel(name+"_split", baseModel, CUBE_TWO, false);
-	}
 
-	private ModelFile cubeThree(String name, ResourceLocation def, ResourceLocation front)
-	{
-		NongeneratedModel baseModel = obj(name, rl("block/stone_multiblocks/cube_three.obj"),
-				ImmutableMap.of("side", def, "front", front), innerModels);
-		return splitModel(name+"_split", baseModel, CUBE_THREE, false);
-	}
-
-	private void createMultiblock(NongeneratedModel unsplitModel, IETemplateMultiblock multiblock)
+	private void createMultiblock(NongeneratedModels.NongeneratedModel unsplitModel, IETemplateMultiblock multiblock)
 	{
 		createMultiblock(unsplitModel, multiblock, false);
 	}
 
-	private void createDynamicMultiblock(NongeneratedModel unsplitModel, IETemplateMultiblock multiblock)
+	private void createDynamicMultiblock(NongeneratedModels.NongeneratedModel unsplitModel, IETemplateMultiblock multiblock)
 	{
 		createMultiblock(unsplitModel, multiblock, true);
 	}
 
-	private void createMultiblock(NongeneratedModel unsplitModel, IETemplateMultiblock multiblock, boolean dynamic)
+	private void createMultiblock(NongeneratedModels.NongeneratedModel unsplitModel, IETemplateMultiblock multiblock, boolean dynamic)
 	{
-		final ModelFile mainModel = split(unsplitModel, multiblock, false, dynamic);
+		/*final ModelFile mainModel = split(unsplitModel, multiblock, false, dynamic);
 		if(multiblock.getBlock().getStateDefinition().getProperties().contains(IEProperties.MIRRORED))
 			createMultiblock(
 					multiblock::getBlock,
@@ -212,7 +147,7 @@ public class MultiblockStates extends ExtendedBlockstateProvider
 					IEProperties.FACING_HORIZONTAL, IEProperties.MIRRORED
 			);
 		else
-			createMultiblock(multiblock::getBlock, mainModel, null, IEProperties.FACING_HORIZONTAL, null);
+			createMultiblock(multiblock::getBlock, mainModel, null, IEProperties.FACING_HORIZONTAL, null);*/
 	}
 
 	private void createMultiblock(Supplier<? extends Block> b, ModelFile masterModel)
@@ -264,41 +199,6 @@ public class MultiblockStates extends ExtendedBlockstateProvider
 			}
 	}
 
-	private ModelFile split(NongeneratedModel loc, TemplateMultiblock mb)
-	{
-		return split(loc, mb, false);
-	}
-
-	private ModelFile split(NongeneratedModel loc, TemplateMultiblock mb, boolean mirror)
-	{
-		return split(loc, mb, mirror, false);
-	}
-
-	private ModelFile split(NongeneratedModel loc, TemplateMultiblock mb, boolean mirror, boolean dynamic)
-	{
-		UnaryOperator<BlockPos> transform = UnaryOperator.identity();
-		if(mirror)
-		{
-			loadTemplateFor(mb);
-			Vec3i size = mb.getSize(null);
-			transform = p -> new BlockPos(size.getX()-p.getX()-1, p.getY(), p.getZ());
-		}
-		return split(loc, mb, transform, dynamic);
-	}
-
-	private ModelFile split(
-			NongeneratedModel name, TemplateMultiblock multiblock, UnaryOperator<BlockPos> transform, boolean dynamic
-	)
-	{
-		loadTemplateFor(multiblock);
-		final Vec3i offset = multiblock.getMasterFromOriginOffset();
-		Stream<Vec3i> partsStream = multiblock.getTemplate(null).blocksWithoutAir()
-				.stream()
-				.map(info -> info.pos())
-				.map(transform)
-				.map(p -> p.subtract(offset));
-		return split(name, partsStream.collect(Collectors.toList()), dynamic);
-	}
 
 	private void loadTemplateFor(TemplateMultiblock multiblock)
 	{

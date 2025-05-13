@@ -1,0 +1,26 @@
+{
+  "type": "immersivenuclear:ie_ore",
+  "config": {
+    "type": 0,
+    "targets": [
+      {
+        "state": {
+          "Name": "immersivenuclear:ore_thorium"
+        },
+        "target": {
+          "predicate_type": "minecraft:tag_match",
+          "tag": "minecraft:stone_ore_replaceables"
+        }
+      },
+      {
+        "state": {
+          "Name": "immersivenuclear:deepslate_ore_thorium"
+        },
+        "target": {
+          "predicate_type": "minecraft:tag_match",
+          "tag": "minecraft:deepslate_ore_replaceables"
+        }
+      }
+    ]
+  }
+}

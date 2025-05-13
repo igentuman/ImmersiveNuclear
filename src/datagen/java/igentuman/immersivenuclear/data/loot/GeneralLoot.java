@@ -10,10 +10,8 @@ package igentuman.immersivenuclear.data.loot;
 
 import blusunrize.immersiveengineering.api.EnumMetals;
 import blusunrize.immersiveengineering.api.crafting.BlueprintCraftingRecipe;
+import blusunrize.immersiveengineering.common.register.IEItems;
 import blusunrize.immersiveengineering.common.util.loot.BluprintzLootFunction;
-import igentuman.immersivenuclear.common.register.INItems.Ingredients;
-import igentuman.immersivenuclear.common.register.INItems.Metals;
-import igentuman.immersivenuclear.common.register.INItems.Misc;
 import igentuman.immersivenuclear.common.world.Villages;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.resources.ResourceLocation;
@@ -45,16 +43,7 @@ public class GeneralLoot implements LootTableSubProvider
 		LootPool.Builder mainPool = LootPool.lootPool();
 		mainPool
 				.setRolls(ConstantValue.exactly(4))
-				.add(createEntry(Ingredients.STICK_TREATED, 20, 2, 7))
-				.add(createEntry(Ingredients.STICK_IRON, 10, 1, 4))
-				.add(createEntry(Ingredients.STICK_STEEL, 6, 1, 4))
-				.add(createEntry(Ingredients.STICK_ALUMINUM, 10, 1, 4))
-				.add(createEntry(Ingredients.HEMP_FABRIC, 10, 1, 3))
-				.add(createEntry(Ingredients.COAL_COKE, 10, 1, 3))
-				.add(createEntry(Ingredients.COMPONENT_IRON, 8, 1, 2))
-				.add(createEntry(Ingredients.COMPONENT_STEEL, 5, 1, 1))
 				.add(createEntry(Items.IRON_INGOT, 10, 1, 4))
-				.add(createEntry(Metals.NUGGETS.get(EnumMetals.NICKEL), 7, 1, 2))
 				.add(createBlueprint("bullet", 4))
 				.add(createBlueprint("specialBullet", 4))
 				.add(createBlueprint("electrode", 4));
@@ -64,18 +53,9 @@ public class GeneralLoot implements LootTableSubProvider
 
 		/* Add Advancement Loot Tables */
 
-		builder = LootTable.lootTable();
-		builder.withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
-				.add(createEntry(Misc.SHADER_BAG.get(Rarity.RARE), 1, 1, 1)));
-		out.accept(rl("advancements/shader_rare"), builder);
-
-		builder = LootTable.lootTable();
-		builder.withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
-				.add(createEntry(Misc.SHADER_BAG.get(Rarity.EPIC), 1, 1, 1)));
-		out.accept(rl("advancements/shader_epic"), builder);
-
 
 		/* Add Hero of the Village Loot Tables */
+/*
 
 		builder = LootTable.lootTable();
 		builder.withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
@@ -107,6 +87,7 @@ public class GeneralLoot implements LootTableSubProvider
 				.add(createEntry(Misc.SHADER_BAG.get(Rarity.EPIC))));
 		out.accept(rl("gameplay/hero_of_the_village/"+Villages.OUTFITTER.getPath()), builder);
 
+*/
 
 	}
 

@@ -1,16 +1,8 @@
-/*
- * BluSunrize
- * Copyright (c) 2023
- *
- * This code is licensed under "Blu's License of Common Sense"
- * Details can be found in the license file in the root folder of this project
- */
-
 package igentuman.immersivenuclear.data.models;
 
 import blusunrize.immersiveengineering.api.client.ieobj.IEOBJCallback;
 import blusunrize.immersiveengineering.api.client.ieobj.IEOBJCallbacks;
-import igentuman.immersivenuclear.client.models.obj.IEOBJLoader;
+import blusunrize.immersiveengineering.client.models.obj.IEOBJLoader;
 import com.google.common.base.Preconditions;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -24,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static igentuman.immersivenuclear.client.models.obj.IEOBJLoader.*;
+import static blusunrize.immersiveengineering.client.models.obj.IEOBJLoader.*;
 
 public class IEOBJBuilder<T extends ModelBuilder<T>> extends CustomLoaderBuilder<T>
 {

@@ -8,19 +8,15 @@
 
 package igentuman.immersivenuclear.data;
 
-import blusunrize.immersiveengineering.api.EnumMetals;
-import blusunrize.immersiveengineering.api.wires.WireType;
-import blusunrize.immersiveengineering.common.register.IEBlocks.StoneDecoration;
 import blusunrize.immersiveengineering.mixin.accessors.ItemModelGeneratorsAccess;
 import blusunrize.immersiveengineering.mixin.accessors.TrimModelDataAccess;
 import igentuman.immersivenuclear.ImmersiveNuclear;
-import igentuman.immersivenuclear.common.items.SteelArmorItem;
-import igentuman.immersivenuclear.common.register.INBannerPatterns;
+import igentuman.immersivenuclear.api.INEnumMetals;
+import igentuman.immersivenuclear.api.wires.INWireType;
 import igentuman.immersivenuclear.common.register.INBlocks.Metals;
 import igentuman.immersivenuclear.common.register.INBlocks.*;
 import igentuman.immersivenuclear.common.register.INFluids;
 import igentuman.immersivenuclear.common.register.INItems;
-import igentuman.immersivenuclear.common.register.INItems.Misc;
 import igentuman.immersivenuclear.common.register.INItems.*;
 import igentuman.immersivenuclear.data.blockstates.MultiblockStates;
 import igentuman.immersivenuclear.data.models.*;
@@ -30,18 +26,15 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ArmorItem.Type;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.client.model.generators.ModelProvider;
 import net.minecraftforge.client.model.generators.loaders.DynamicFluidContainerModelBuilder;
 import net.minecraftforge.client.model.generators.loaders.ObjModelBuilder;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import blusunrize.immersiveengineering.data.models.TRSRModelBuilder;
 import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Map.Entry;
 
 import static igentuman.immersivenuclear.ImmersiveNuclear.rl;
 import static net.minecraft.client.renderer.RenderType.translucent;
@@ -64,7 +57,7 @@ public class ItemModels extends TRSRItemModelProvider
 	@Override
 	protected void registerModels()
 	{
-		for(EnumMetals m : EnumMetals.values())
+		for(INEnumMetals m : INEnumMetals.values())
 			createMetalModels(m);
 		createItemModels();
 		createMetalModels();
@@ -87,25 +80,7 @@ public class ItemModels extends TRSRItemModelProvider
 		addItemModels("metal_", INItems.Metals.RAW_ORES.values().stream().filter(i -> ImmersiveNuclear.MODID.equals(i.getId().getNamespace())).toArray(ItemLike[]::new));
 		addItemModels("metal_", INItems.Metals.DUSTS.values().toArray(new ItemLike[0]));
 		addItemModels("metal_", INItems.Metals.PLATES.values().toArray(new ItemLike[0]));
-		for(ItemLike bag : INItems.Misc.SHADER_BAG.values())
-			addItemModel("shader_bag", bag);
-
-		addItemModels("material_", Ingredients.STICK_TREATED, Ingredients.STICK_IRON, Ingredients.STICK_STEEL, Ingredients.STICK_ALUMINUM,
-				Ingredients.HEMP_FIBER, Ingredients.HEMP_FABRIC, Ingredients.ERSATZ_LEATHER, Ingredients.COAL_COKE, Ingredients.SLAG,
-				Ingredients.COMPONENT_IRON, Ingredients.COMPONENT_STEEL, Ingredients.WATERWHEEL_SEGMENT, Ingredients.WINDMILL_BLADE, Ingredients.WINDMILL_SAIL,
-				Ingredients.WOODEN_GRIP, Ingredients.GUNPART_BARREL, Ingredients.GUNPART_DRUM, Ingredients.GUNPART_HAMMER,
-				Ingredients.DUST_COKE, Ingredients.DUST_HOP_GRAPHITE, Ingredients.INGOT_HOP_GRAPHITE,
-				Ingredients.WIRE_COPPER, Ingredients.WIRE_ELECTRUM, Ingredients.WIRE_ALUMINUM, Ingredients.WIRE_STEEL, Ingredients.WIRE_LEAD,
-				Ingredients.DUST_SALTPETER, Ingredients.DUST_SULFUR, Ingredients.DUST_WOOD,
-				Ingredients.LIGHT_BULB, Ingredients.ELECTRON_TUBE, Ingredients.CIRCUIT_BOARD,
-				Ingredients.DUROPLAST_PLATE, Ingredients.COMPONENT_ELECTRONIC, Ingredients.COMPONENT_ELECTRONIC_ADV
-		);
-
-		addItemModels(
-				"tool_", mcLoc("item/handheld"), Tools.HAMMER, Tools.WIRECUTTER, Tools.SCREWDRIVER
-		);
-		addItemModels("", Tools.SURVEY_TOOLS);
-		addItemModels("", Tools.GLIDER);
+/*
 		addItemModels("", INItems.Misc.WIRE_COILS.values().toArray(new ItemLike[0]));
 		addItemModels("", INItems.Misc.GRAPHITE_ELECTRODE);
 		addItemModels("", INItems.Misc.TOOL_UPGRADES.values().toArray(new ItemLike[0]));
@@ -132,7 +107,7 @@ public class ItemModels extends TRSRItemModelProvider
 		obj(Tools.VOLTMETER, rl("item/voltmeter.obj"))
 				.transforms(rl("item/voltmeter"));
 		obj(Tools.TOOLBOX, rl("item/toolbox.obj"))
-				.transforms(rl("item/toolbox"));
+				.transforms(rl("item/toolbox"));*/
 
 		INFluids.ALL_ENTRIES.forEach(this::createBucket);
 
@@ -153,25 +128,11 @@ public class ItemModels extends TRSRItemModelProvider
 
 	private void createConnectorModels()
 	{
-		obj(Connectors.getEnergyConnector(WireType.LV_CATEGORY, false), rl("block/connector/connector_lv.obj"))
-				.texture("texture", modLoc("block/connector/connector_lv"))
+		obj(Connectors.getEnergyConnector(INWireType.EV_CATEGORY, false), rl("block/connector/connector_ev.obj"))
 				.transforms(rl("item/connector"));
-		obj(Connectors.getEnergyConnector(WireType.LV_CATEGORY, true), rl("block/connector/connector_lv.obj"))
-				.texture("texture", modLoc("block/connector/relay_lv"))
+		obj(Connectors.getEnergyConnector(INWireType.EV_CATEGORY, true), rl("block/connector/relay_ev.obj"))
 				.transforms(rl("item/connector"));
-
-		obj(Connectors.getEnergyConnector(WireType.MV_CATEGORY, false), rl("block/connector/connector_mv.obj"))
-				.texture("texture", modLoc("block/connector/connector_mv"))
-				.transforms(rl("item/connector"));
-		obj(Connectors.getEnergyConnector(WireType.MV_CATEGORY, true), rl("block/connector/connector_mv.obj"))
-				.texture("texture", modLoc("block/connector/relay_mv"))
-				.transforms(rl("item/connector"));
-
-		obj(Connectors.getEnergyConnector(WireType.HV_CATEGORY, false), rl("block/connector/connector_hv.obj"))
-				.transforms(rl("item/connector"));
-		obj(Connectors.getEnergyConnector(WireType.HV_CATEGORY, true), rl("block/connector/relay_hv.obj"))
-				.transforms(rl("item/connector"));
-		obj(Connectors.TRANSFORMER_HV, rl("block/connector/transformer_hv_left.obj"))
+		obj(Connectors.TRANSFORMER_EV, rl("block/connector/transformer_ev_left.obj"))
 				.transforms(rl("item/transformer"));
 	}
 
@@ -210,7 +171,7 @@ public class ItemModels extends TRSRItemModelProvider
 		return "Item models";
 	}
 
-	private void createMetalModels(EnumMetals metal)
+	private void createMetalModels(INEnumMetals metal)
 	{
 		String name = metal.tagName();
 		if(metal.shouldAddOre())
@@ -221,18 +182,9 @@ public class ItemModels extends TRSRItemModelProvider
 		if(!metal.isVanillaMetal())
 		{
 			ResourceLocation defaultName = rl("block/metal/storage_"+name);
-			if(metal==EnumMetals.URANIUM)
-			{
-				ResourceLocation side = rl("block/metal/storage_"+name+"_side");
-				ResourceLocation top = rl("block/metal/storage_"+name+"_top");
-				cubeBottomTop(name(Metals.STORAGE.get(metal)), side, top, top);
-			}
-			else
-				cubeAll(name(Metals.STORAGE.get(metal)), defaultName);
-		}
-		ResourceLocation sheetmetalName = rl("block/metal/sheetmetal_"+name);
-		cubeAll(name(Metals.SHEETMETAL.get(metal)), sheetmetalName);
+			cubeAll(name(Metals.STORAGE.get(metal)), defaultName);
 
+		}
 	}
 
 	private void addItemModels(String texturePrefix, ItemLike... items)

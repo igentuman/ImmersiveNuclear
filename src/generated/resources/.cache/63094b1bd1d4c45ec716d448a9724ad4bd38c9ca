@@ -1,0 +1,23 @@
+// 1.20.1	2025-05-13T15:49:08.291530585	Tags for minecraft:block mod id immersivenuclear
+b8bea52035133420d768d91fdd251b4d0e83e2cd data/forge/tags/blocks/ore_rates/singular.json
+fe4de7d1779a66f5a5420bbb7e89da4475d67fe5 data/forge/tags/blocks/ores.json
+8dc24ce06121c161ca92f53832445f0dcf92853f data/forge/tags/blocks/ores/boron.json
+650314881e7c332fbb3b9ed9c0101666471e77df data/forge/tags/blocks/ores/thorium.json
+13299c6c903cf26248de4fe1bc685b643f0700b4 data/forge/tags/blocks/ores_in_ground/deepslate.json
+a5a1fd5f9afe6c0080c6c8aec1f7e1a01067edd9 data/forge/tags/blocks/ores_in_ground/stone.json
+9385c6d18208babc996ed619c8d1f01f136c60b1 data/forge/tags/blocks/storage_blocks.json
+36d23c13e91873293a9f6b8939d97db79efe2628 data/forge/tags/blocks/storage_blocks/boron.json
+888d6e3889907bd8816790272b9da21668b6b9d9 data/forge/tags/blocks/storage_blocks/plutonium239.json
+c4c1e64cf5e30cdfaf2cfadcca87611aad27c540 data/forge/tags/blocks/storage_blocks/plutonium240.json
+a140279a7765dc9adbabecaa54db9e1b2dc5becd data/forge/tags/blocks/storage_blocks/plutonium241.json
+a4ae075532d5e805a3a971cc9847241f7d3cdd94 data/forge/tags/blocks/storage_blocks/raw_boron.json
+d384aec55e9cd71b6fae9129fd21fe3f1fa13b37 data/forge/tags/blocks/storage_blocks/raw_thorium.json
+89e81cd6f74f741ab3a0add5d3b9b9648dd8e393 data/forge/tags/blocks/storage_blocks/stainless_steel.json
+fc705ca3db31149ceeb2e42015cce2be38577303 data/forge/tags/blocks/storage_blocks/thorium.json
+68ee703b0a77409381477c9abe30fca12988ea86 data/forge/tags/blocks/storage_blocks/uranium233.json
+5bf3ac2967382a3c14f39aa3108d1a24cea7f1d6 data/forge/tags/blocks/storage_blocks/uranium235.json
+19a68a87b4206b7d2b47c8a0cf4ea6e63266f94e data/forge/tags/blocks/storage_blocks/uranium238.json
+9eff49b3c6fd27003786469dc8b865c4cc1d7be3 data/forge/tags/blocks/storage_blocks/zirconium.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/minecraft/tags/blocks/mineable/axe.json
+0cdcc52d6e23044b83acd61368ab1ef33b4affc5 data/minecraft/tags/blocks/mineable/pickaxe.json
+b7f781edef06733a605019bb35d3096da42a422e data/minecraft/tags/blocks/needs_iron_tool.json

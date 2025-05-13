@@ -1,0 +1,10 @@
+{
+  "parent": "minecraft:block/block",
+  "automatic_culling": false,
+  "flip_v": true,
+  "loader": "forge:obj",
+  "model": "immersivenuclear:models/block/connector/connector_ev.obj",
+  "textures": {
+    "particle": "immersivenuclear:block/connector/connector_ev"
+  }
+}

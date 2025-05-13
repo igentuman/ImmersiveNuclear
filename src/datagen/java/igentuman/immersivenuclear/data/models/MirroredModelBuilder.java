@@ -1,15 +1,6 @@
-/*
- * BluSunrize
- * Copyright (c) 2022
- *
- * This code is licensed under "Blu's License of Common Sense"
- * Details can be found in the license file in the root folder of this project
- */
-
 package igentuman.immersivenuclear.data.models;
 
-import igentuman.immersivenuclear.client.models.mirror.MirroredModelLoader;
-import igentuman.immersivenuclear.data.models.NongeneratedModels.NongeneratedModel;
+import blusunrize.immersiveengineering.client.models.mirror.MirroredModelLoader;
 import com.google.gson.JsonObject;
 import net.minecraftforge.client.model.generators.CustomLoaderBuilder;
 import net.minecraftforge.client.model.generators.ModelBuilder;
@@ -23,14 +14,14 @@ public class MirroredModelBuilder<T extends ModelBuilder<T>> extends CustomLoade
 		return new MirroredModelBuilder<>(parent, existingFileHelper);
 	}
 
-	private NongeneratedModel inner;
+	private NongeneratedModels.NongeneratedModel inner;
 
 	protected MirroredModelBuilder(T parent, ExistingFileHelper existingFileHelper)
 	{
 		super(MirroredModelLoader.ID, parent, existingFileHelper);
 	}
 
-	public MirroredModelBuilder<T> inner(NongeneratedModel inner)
+	public MirroredModelBuilder<T> inner(NongeneratedModels.NongeneratedModel inner)
 	{
 		this.inner = inner;
 		return this;

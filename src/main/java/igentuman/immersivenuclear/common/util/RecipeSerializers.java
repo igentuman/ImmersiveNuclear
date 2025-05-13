@@ -9,6 +9,7 @@
 
 package igentuman.immersivenuclear.common.util;
 
+import blusunrize.immersiveengineering.common.crafting.serializers.RGBRecipeSerializer;
 import blusunrize.immersiveengineering.common.crafting.serializers.SimpleRecipeSerializer;
 import igentuman.immersivenuclear.ImmersiveNuclear;
 import net.minecraft.resources.ResourceLocation;
@@ -16,6 +17,7 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -29,6 +31,9 @@ public class RecipeSerializers
 	public static final RegistryObject<SimpleRecipeSerializer<PowerpackRecipe>> POWERPACK_SERIALIZER = RECIPE_SERIALIZERS.register(
 			"powerpack", special(PowerpackRecipe::new)
 	);*/
+	public static final RegistryObject<RGBRecipeSerializer> RGB_SERIALIZER = RECIPE_SERIALIZERS.register(
+			"rgb", RGBRecipeSerializer::new
+	);
 
 	static
 	{

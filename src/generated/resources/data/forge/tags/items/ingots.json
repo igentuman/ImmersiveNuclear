@@ -1,0 +1,14 @@
+{
+  "values": [
+    "#forge:ingots/zirconium",
+    "#forge:ingots/thorium",
+    "#forge:ingots/boron",
+    "#forge:ingots/uranium238",
+    "#forge:ingots/uranium235",
+    "#forge:ingots/uranium233",
+    "#forge:ingots/plutonium239",
+    "#forge:ingots/plutonium240",
+    "#forge:ingots/plutonium241",
+    "#forge:ingots/stainless_steel"
+  ]
+}

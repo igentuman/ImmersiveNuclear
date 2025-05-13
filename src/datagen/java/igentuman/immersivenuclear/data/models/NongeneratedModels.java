@@ -7,43 +7,29 @@
  */
 
 package igentuman.immersivenuclear.data.models;
-
-import igentuman.immersivenuclear.api.Lib;
-import igentuman.immersivenuclear.data.models.NongeneratedModels.NongeneratedModel;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.model.generators.ModelBuilder;
 import net.minecraftforge.client.model.generators.ModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
-/**
- * When wrapping models for splitting/mirroring/etc, we include the "inner" model JSON into the "outer" one. So there is
- * no need to generate the files for the inner model. This ModelProvider gives a way to use the standard model creation
- * API for such models, as well as a compile-time way to specify that a model should be "inner".
- */
-public class NongeneratedModels extends ModelProvider<NongeneratedModel>
-{
-	public NongeneratedModels(PackOutput output, ExistingFileHelper existingFileHelper)
-	{
-		super(output, Lib.MODID, "block", NongeneratedModel::new, existingFileHelper);
+import static igentuman.immersivenuclear.api.Lib.MODID;
+
+public class NongeneratedModels extends ModelProvider<NongeneratedModels.NongeneratedModel> {
+
+	public NongeneratedModels(PackOutput output, ExistingFileHelper existingFileHelper) {
+		super(output, MODID, "block", NongeneratedModel::new, existingFileHelper);
 	}
 
-	@Override
-	protected void registerModels()
-	{
+	protected void registerModels() {
 	}
 
-	@Override
-	public String getName()
-	{
+	public String getName() {
 		return "Non-generated models";
 	}
 
-	public static class NongeneratedModel extends ModelBuilder<NongeneratedModel>
-	{
-
-		protected NongeneratedModel(ResourceLocation outputLocation, ExistingFileHelper existingFileHelper)
-		{
+	public static class NongeneratedModel extends ModelBuilder<NongeneratedModel> {
+		protected NongeneratedModel(ResourceLocation outputLocation, ExistingFileHelper existingFileHelper) {
 			super(outputLocation, existingFileHelper);
 		}
 	}

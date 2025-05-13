@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "i": {
+      "item": "immersivenuclear:ingot_uranium233"
+    },
+    "s": {
+      "tag": "forge:ingots/uranium233"
+    }
+  },
+  "pattern": [
+    "sss",
+    "sis",
+    "sss"
+  ],
+  "result": {
+    "item": "immersivenuclear:storage_uranium233"
+  },
+  "show_notification": true
+}

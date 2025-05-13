@@ -14,7 +14,6 @@ import igentuman.immersivenuclear.data.blockstates.BlockStates;
 import igentuman.immersivenuclear.data.blockstates.ConnectorBlockStates;
 import igentuman.immersivenuclear.data.blockstates.MultiblockStates;
 import igentuman.immersivenuclear.data.loot.AllLoot;
-import igentuman.immersivenuclear.data.manual.ManualDataGenerator;
 import igentuman.immersivenuclear.data.tags.*;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
@@ -37,15 +36,15 @@ public class INDataGenerator
 		final var lookup = event.getLookupProvider();
 		if(event.includeServer())
 		{
-			BlockTagsProvider blockTags = new IEBlockTags(output, lookup, exHelper);
+			BlockTagsProvider blockTags = new INBlockTags(output, lookup, exHelper);
 			gen.addProvider(true, blockTags);
-			gen.addProvider(true, new IEItemTags(output, lookup, blockTags.contentsGetter(), exHelper));
+			gen.addProvider(true, new INItemTags(output, lookup, blockTags.contentsGetter(), exHelper));
 			gen.addProvider(true, new FluidTags(output, lookup, exHelper));
 			gen.addProvider(true, new BlockEntityTags(output, lookup, exHelper));
 			gen.addProvider(true, new BannerTags(output, lookup, exHelper));
 			gen.addProvider(true, new PoiTags(output, lookup, exHelper));
 			gen.addProvider(true, new EntityTypeTags(output, lookup, exHelper));
-			gen.addProvider(true, new Recipes(output));
+			gen.addProvider(true, new INRecipes(output));
 			gen.addProvider(true, new AllLoot(output));
 			gen.addProvider(true, new BlockStates(output, exHelper));
 			MultiblockStates multiblocks = new MultiblockStates(output, exHelper);
@@ -58,7 +57,6 @@ public class INDataGenerator
 			gen.addProvider(true, new DynamicModels(multiblocks, output, exHelper));
 			for(final DataProvider provider : WorldGenerationProvider.makeProviders(output, lookup, exHelper))
 				gen.addProvider(true, provider);
-			ManualDataGenerator.addProviders(gen, exHelper);
 		}
 	}
 }

@@ -8,10 +8,6 @@
 
 package igentuman.immersivenuclear.common.world;
 
-import blusunrize.immersiveengineering.ImmersiveEngineering;
-import blusunrize.immersiveengineering.common.world.IECountPlacement;
-import blusunrize.immersiveengineering.common.world.IEHeightProvider;
-import blusunrize.immersiveengineering.common.world.IEOreFeature;
 import igentuman.immersivenuclear.ImmersiveNuclear;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -23,10 +19,12 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import static igentuman.immersivenuclear.api.Lib.MODID;
+
 
 public class IEWorldGen
 {
-	private static final DeferredRegister<Feature<?>> FEATURE_REGISTER = DeferredRegister.create(ForgeRegistries.FEATURES, ImmersiveEngineering.MODID);
+	private static final DeferredRegister<Feature<?>> FEATURE_REGISTER = DeferredRegister.create(ForgeRegistries.FEATURES, MODID);
 
 	public static final RegistryObject<IEOreFeature> IE_CONFIG_ORE = FEATURE_REGISTER.register(
 			"ie_ore", IEOreFeature::new
